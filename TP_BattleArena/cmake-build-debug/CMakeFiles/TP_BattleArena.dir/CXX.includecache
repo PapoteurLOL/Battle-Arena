@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+GL/gl.h
+-
+
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp
+SDL2/SDL.h
+-
+GL/gl.h
+-
+GL/glu.h
+-
+Utils.h
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+
