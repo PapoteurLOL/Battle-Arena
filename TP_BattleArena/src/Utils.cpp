@@ -213,10 +213,10 @@ void Utils::drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTextu
     glTexCoord2f(0,1);glVertex3f(-1, 1, 1);
 
     //face du gauche
-    glVertex3f(-1, -1, 1);
-    glVertex3f(-1, -1, -1);
-    glVertex3f(-1, 1, -1);
-    glVertex3f(-1, 1, 1);
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(-1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(-1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, 1);
 
     //face du derriere
     glTexCoord2f(0,0);glVertex3f(-1, -1, -1);
@@ -225,10 +225,10 @@ void Utils::drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTextu
     glTexCoord2f(0,1);glVertex3f(-1, 1, -1);
 
     //face du droite
-    glVertex3f(1, -1, 1);
-    glVertex3f(1, -1, -1);
-    glVertex3f(1, 1, -1);
-    glVertex3f(1, 1, 1);
+    glTexCoord2f(0,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(1, 1, 1);
 
     //face du haut
     glTexCoord2f(0,0);glVertex3f(-1, 1, 1);

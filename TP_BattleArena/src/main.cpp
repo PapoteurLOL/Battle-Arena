@@ -2,7 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "Utils.h"
-#include "player.h"
+#include "Camera.h"
 int main(int argc, char **args) {
     SDL_Window *win;
     int width = 800, height = 600;
@@ -35,10 +35,14 @@ int main(int argc, char **args) {
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, 0, 17, 0, 0, 0.5, 20);
+    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
+    Camera *c1 = new Camera(p1);
     while (isRunning) {
         glLoadIdentity();
-        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+//        glPushMatrix();
+//        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+        c1->move();
+//        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
                      1.f); //permet d'expliquer avec quelle couleur on va remplir la memoire des couleurs
@@ -65,17 +69,16 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_DOWN]) {
             z += .1;
         }
-        p1->Move(state);
+        p1->move(state);
         //dessin des différents objet dans la fenêtre
 
 
         //plateforme
         Utils::drawCube(2000, .1, 2000);
-        glTranslatef(0, 1, 0);
-
+        glTranslatef(0,1,0);
 
         //Player
-        p1->Draw();
+        p1->draw();
 
 
         //mise a jour de l'écran
@@ -88,7 +91,7 @@ int main(int argc, char **args) {
     }
     delete p1;
     gluDeleteQuadric(params);
-    glDeleteTextures(1,&idTankTexture);
+    glDeleteTextures(1, &idTankTexture);
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(win);
     IMG_Quit();
