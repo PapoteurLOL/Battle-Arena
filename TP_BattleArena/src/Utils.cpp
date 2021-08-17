@@ -147,3 +147,50 @@ void Utils::drawCube(float tailleX, float tailleY, float tailleZ, float red, flo
     glEnd();
     glPopMatrix();
 }
+
+GLuint Utils::loadTexture(std::string path) {
+    GLuint idTexture = 0;
+    SDL_Surface *surfaceTemp1 = IMG_Load(path.c_str());
+    if (surfaceTemp1 == nullptr) {
+        SDL_Log("file not load");
+        exit(404);
+    }
+    SDL_Surface *surfaceTemp2 = flipSurface(surfaceTemp1);
+    glGenTextures(1, &idTexture);
+    glBindTexture(GL_TEXTURE_2D, idTexture);
+    int Mode = GL_RGB;
+    if (surfaceTemp2->format->BytesPerPixel == 4) {
+        Mode = GL_RGBA;
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, Mode, surfaceTemp2->w, surfaceTemp2->h, 0, Mode, GL_UNSIGNED_BYTE, surfaceTemp2->pixels);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    SDL_FreeSurface(surfaceTemp1);
+    SDL_FreeSurface(surfaceTemp2);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return idTexture;
+}
+
+SDL_Surface * Utils::flipSurface(SDL_Surface * surface){
+    int current_line,pitch;
+    SDL_Surface * fliped_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                                        surface->w,surface->h,
+                                                        surface->format->BitsPerPixel,
+                                                        surface->format->Rmask,
+                                                        surface->format->Gmask,
+                                                        surface->format->Bmask,
+                                                        surface->format->Amask);
+    SDL_LockSurface(surface);
+    SDL_LockSurface(fliped_surface);
+    pitch = surface->pitch;
+    for (current_line = 0; current_line < surface->h; current_line ++){
+        memcpy(&((unsigned char* )fliped_surface->pixels)[current_line*pitch],
+               &((unsigned char* )surface->pixels)[(surface->h - 1  -
+               current_line)*pitch],
+               pitch);
+    }
+    SDL_UnlockSurface(fliped_surface);
+    SDL_UnlockSurface(surface);
+    return fliped_surface;
+}
