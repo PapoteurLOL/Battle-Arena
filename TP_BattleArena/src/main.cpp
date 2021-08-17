@@ -21,6 +21,7 @@ int main(int argc, char **args) {
     SDL_GL_SetSwapInterval(0);
     //appelle la matrice de projection
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
     glLoadIdentity();
@@ -34,7 +35,7 @@ int main(int argc, char **args) {
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, 0, 1, 0, 0, 0.5, 20);
+    Player *p1 = new Player(params, idTankTexture, 18, 16, 0, 17, 0, 0, 0.5, 20);
     while (isRunning) {
         glLoadIdentity();
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
