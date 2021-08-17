@@ -75,10 +75,11 @@ int main(int argc, char **args) {
 
         //plateforme
         Utils::drawCube(2000, .1, 2000);
-        glTranslatef(0,1,0);
+        glTranslatef(0, 1, 0);
 
         //Player
         p1->draw();
+
 
 
         //mise a jour de l'écran
