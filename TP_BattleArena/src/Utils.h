@@ -15,6 +15,7 @@ public:
     static void drawQuadsHollow(float height, float lenght, float red, float green, float blue);
     static void drawCube(float tailleX, float tailleY, float tailleZ);
     static void drawCube(float tailleX, float tailleY, float tailleZ, float red, float green, float blue);
+    static void drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTexture);
     static SDL_Surface * flipSurface(SDL_Surface * surface);
     static GLuint loadTexture(std::string path);
 };

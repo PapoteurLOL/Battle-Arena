@@ -194,3 +194,48 @@ SDL_Surface * Utils::flipSurface(SDL_Surface * surface){
     SDL_UnlockSurface(surface);
     return fliped_surface;
 }
+void Utils::drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTexture) {
+    glPushMatrix();
+    glScalef(tailleX, tailleY, tailleZ);
+    glBindTexture(GL_TEXTURE_2D, idTexture);
+    glBegin(GL_QUADS);
+    //face du bas
+    glColor3f(1, 1, 1);
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, -1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, -1, -1);
+
+    //face du devant
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, 1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, 1);
+
+    //face du gauche
+    glVertex3f(-1, -1, 1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, 1, -1);
+    glVertex3f(-1, 1, 1);
+
+    //face du derriere
+    glTexCoord2f(0,0);glVertex3f(-1, -1, -1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, -1);
+
+    //face du droite
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(1, 1, 1);
+
+    //face du haut
+    glTexCoord2f(0,0);glVertex3f(-1, 1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, 1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, -1);
+    glEnd();
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}

@@ -16,7 +16,7 @@ protected:
     float hp;
     GLuint idPlayer;
 public:
-    Player(GLUquadric *params, float taille, float radius, float x, float y, float z, float angleRotation, float velocity, float hp);
+    Player(GLUquadric *params, GLuint idTexture, float taille, float radius, float x, float y, float z, float angleRotation, float velocity, float hp);
     void Draw();
     virtual ~Player();
     void Move(const Uint8 *state);

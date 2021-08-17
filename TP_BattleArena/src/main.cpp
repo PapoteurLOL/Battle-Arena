@@ -8,6 +8,7 @@ int main(int argc, char **args) {
     int width = 800, height = 600;
     bool isRunning = true;
     SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_JPG);
     win = SDL_CreateWindow("opengl Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                            SDL_WINDOW_OPENGL);
 
@@ -29,11 +30,11 @@ int main(int argc, char **args) {
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
-    float  x = 100,y = 100,z = 100;
+    float x = 100, y = 100, z = 100;
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
-
-    Player *p1 = new Player(params, 18, 16, 0,1,0,0,0.5,20);
+    GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
+    Player *p1 = new Player(params, idTankTexture, 18, 16, 0, 1, 0, 0, 0.5, 20);
     while (isRunning) {
         glLoadIdentity();
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
@@ -48,29 +49,28 @@ int main(int argc, char **args) {
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
-        if(state[SDL_SCANCODE_ESCAPE]){
+        if (state[SDL_SCANCODE_ESCAPE]) {
             isRunning = false;
         }
-        if(state[SDL_SCANCODE_LEFT]){
-            x-=.1;
+        if (state[SDL_SCANCODE_LEFT]) {
+            x -= .1;
         }
-        if(state[SDL_SCANCODE_RIGHT]){
-            x+=.1;
+        if (state[SDL_SCANCODE_RIGHT]) {
+            x += .1;
         }
-        if(state[SDL_SCANCODE_UP]){
-            z-=.1;
+        if (state[SDL_SCANCODE_UP]) {
+            z -= .1;
         }
-        if(state[SDL_SCANCODE_DOWN]){
-            z+=.1;
+        if (state[SDL_SCANCODE_DOWN]) {
+            z += .1;
         }
-
         p1->Move(state);
         //dessin des différents objet dans la fenêtre
 
 
         //plateforme
-        Utils::drawCube(2000,.1,2000);
-        glTranslatef(0,1,0);
+        Utils::drawCube(2000, .1, 2000);
+        glTranslatef(0, 1, 0);
 
 
         //Player
@@ -85,8 +85,12 @@ int main(int argc, char **args) {
         //pause dans l'image
         SDL_Delay(1);
     }
+    delete p1;
+    gluDeleteQuadric(params);
+    glDeleteTextures(1,&idTankTexture);
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(win);
+    IMG_Quit();
     SDL_Quit();
     return 0;
 }

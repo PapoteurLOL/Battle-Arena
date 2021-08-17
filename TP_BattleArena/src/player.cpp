@@ -5,13 +5,13 @@
 #include "player.h"
 #include "Utils.h"
 
-Player::Player(GLUquadric *params, float taille, float radius, float x, float y, float z, float angleRotation, float velocity, float hp) : x(x), y(y), z(z),
+Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius, float x, float y, float z, float angleRotation, float velocity, float hp) : x(x), y(y), z(z),
                                                                                            angleRotation(angleRotation),
                                                                                            velocity(velocity), hp(hp) {
     idPlayer = glGenLists(1);
     glNewList(idPlayer, GL_COMPILE);
     glPushMatrix();
-    Utils::drawCube(taille,taille,taille,0.1,0.5,0.1);
+    Utils::drawCube(taille,taille,taille,idTexture);
     glTranslatef(this->x,this->y + taille,this->z);
     gluQuadricDrawStyle(params, GLU_FILL);
     glColor3f(25.0/ 255.0, 89.0 / 255.0, 2.0 / 255.0);
