@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "Utils.h"
+#include "player.h"
 int main(int argc, char **args) {
     SDL_Window *win;
     int width = 800, height = 600;
@@ -30,6 +31,9 @@ int main(int argc, char **args) {
     float angleZ = 0;
     float  x = 100,y = 100,z = 100;
     const Uint8 *state = nullptr;
+    GLUquadric *params = gluNewQuadric();
+
+    Player *p1 = new Player(params, 18, 16, 0,1,0,0,0.5,20);
     while (isRunning) {
         glLoadIdentity();
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
@@ -59,14 +63,18 @@ int main(int argc, char **args) {
         if(state[SDL_SCANCODE_DOWN]){
             z+=.1;
         }
+
+        p1->Move(state);
         //dessin des différents objet dans la fenêtre
 
 
         //plateforme
         Utils::drawCube(2000,.1,2000);
         glTranslatef(0,1,0);
-        Utils::drawAxis(50);
 
+
+        //Player
+        p1->Draw();
 
 
         //mise a jour de l'écran

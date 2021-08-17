@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj"
   "CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
+  "CMakeFiles/TP_BattleArena.dir/src/player.cpp.obj"
   "TP_BattleArena.exe"
   "TP_BattleArena.exe.manifest"
   "TP_BattleArena.pdb"

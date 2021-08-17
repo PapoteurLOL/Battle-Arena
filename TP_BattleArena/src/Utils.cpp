@@ -99,3 +99,51 @@ void Utils::drawCube(float tailleX, float tailleY, float tailleZ) {
     glEnd();
     glPopMatrix();
 }
+void Utils::drawCube(float tailleX, float tailleY, float tailleZ, float red, float green, float blue) {
+    glPushMatrix();
+    glScalef(tailleX, tailleY, tailleZ);
+    glBegin(GL_QUADS);
+    //face du bas
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(-1, -1, -1);
+
+    //face du gauche
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(-1, 1, 1);
+
+    //face du gauche
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, 1, -1);
+    glVertex3f(-1, 1, 1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(-1, 1, -1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(1, 1, 1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(-1, 1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(-1, 1, -1);
+    glEnd();
+    glPopMatrix();
+}

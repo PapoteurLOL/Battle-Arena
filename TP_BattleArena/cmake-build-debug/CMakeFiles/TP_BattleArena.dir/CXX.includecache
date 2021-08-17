@@ -19,4 +19,22 @@ GL/glu.h
 -
 Utils.h
 C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+player.h
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.h
+
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.cpp
+player.h
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.h
+Utils.h
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.h
+GL/glu.h
+-
+GL/gl.h
+-
+SDL2/SDL.h
+-
+iostream
+C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/iostream
 

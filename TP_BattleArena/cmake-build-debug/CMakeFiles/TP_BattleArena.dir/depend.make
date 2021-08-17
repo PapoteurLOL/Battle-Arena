@@ -6,4 +6,9 @@ CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj: \
  ../src/Utils.h
 CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj: \
  ../src/Utils.h \
- ../src/main.cpp
+ ../src/main.cpp \
+ ../src/player.h
+CMakeFiles/TP_BattleArena.dir/src/player.cpp.obj: \
+ ../src/Utils.h \
+ ../src/player.cpp \
+ ../src/player.h

@@ -12,5 +12,6 @@ public:
     static void drawQuads(float height, float lenght, float red, float green, float blue);
     static void drawQuadsHollow(float height, float lenght, float red, float green, float blue);
     static void drawCube(float tailleX, float tailleY, float tailleZ);
+    static void drawCube(float tailleX, float tailleY, float tailleZ, float red, float green, float blue);
 };
 #endif //DEMOFIRSTSDL_UTILS_H

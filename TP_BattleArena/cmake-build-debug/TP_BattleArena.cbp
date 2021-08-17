@@ -91,6 +91,12 @@
 		<Unit filename="C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp">
 			<Option target="TP_BattleArena"/>
 		</Unit>
+		<Unit filename="C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.cpp">
+			<Option target="TP_BattleArena"/>
+		</Unit>
+		<Unit filename="C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/player.h">
+			<Option target="TP_BattleArena"/>
+		</Unit>
 		<Unit filename="C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
