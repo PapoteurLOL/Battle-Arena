@@ -8,12 +8,13 @@
 #include <SDL2/SDL_mixer.h>
 #include "Arbre.h"
 #include "Champignon.h"
+#include <vector>
 #include "Utils.h"
 #include "Camera.h"
 #include "Projectile.h"
-void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1,Camera *c2,const Uint8 *state,  GLUquadric *params, GLuint idTexture);
-
-
+#include "Enemy.h"
+void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                 GLUquadric *params, GLuint idTexture);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -50,9 +51,8 @@ int main(int argc, char **args) {
     float angleX = 0;
     float angleZ = 0;
     float x = 10, y = 10, z = 10;
-    float  x2 = 15,y2 = 10,z2 = 15;
+    float x2 = 15, y2 = 10, z2 = 15;
     const Uint8 *state = nullptr;
-
     //jouer son
     Mix_PlayChannel(2, son1, 0);
     GLUquadric *params = gluNewQuadric();
@@ -60,11 +60,8 @@ int main(int argc, char **args) {
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
-
-   Player *p2 = new Player(params,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
-   Camera *c2 = new Camera(p2);
-
-
+    Player *p2 = new Player(params, idTankTexture, 18, 16, {5, 1, 0}, 0, 0.5, 0.5, 20);
+    Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
     int nbArbres = 1000;
@@ -104,12 +101,27 @@ int main(int argc, char **args) {
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
     }
+    float enemyPosX = 0;
+    float enemyPosY = 20;
+    float enemyPosZ = -800;
+    float enemyVelocity = .2;
+    Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
+//    std::vector<Enemy *> enemies;
+//    for (int i = 0; i < 5; i++) {
+//        int sign = 1;
+//        if (rand()%2 == 0)
+//            sign = -1;
+//        else
+//            sign = 1;
+//        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
+//    }
+
 
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
 //        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-      //  c1->move();
+        //  c1->move();
 //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
@@ -139,7 +151,7 @@ int main(int argc, char **args) {
         }
         //OTHERCAMERA
         if (state[SDL_SCANCODE_A]) {
-            x2-= .1;
+            x2 -= .1;
         }
         if (state[SDL_SCANCODE_D]) {
             x2 += .1;
@@ -157,7 +169,7 @@ int main(int argc, char **args) {
         //dessin des différents objet dans la fenêtre
 
 
-        splitScreen(p1,p2,width,height,c1,c2,state, params, idBulletTexture);
+        splitScreen(p1, p2, width, height, c1, c2, state, params, idBulletTexture);
 
 
         //dessiner skybox
@@ -179,8 +191,20 @@ int main(int argc, char **args) {
         Utils::drawAxis(20);
         glPopMatrix();
         //Player
-        p1->draw();
-        p2->draw();
+
+
+        enemy->draw();
+        enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+//        for (Enemy *e : enemies) {
+//            e->draw();
+//        }
+//
+//        for (Enemy *e : enemies) {
+//            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+//        }
+
+
+
 
         //mise a jour de l'écran
         glFlush();
@@ -188,7 +212,7 @@ int main(int argc, char **args) {
         //pause dans l'image
         SDL_Delay(1);
     }
-    //delete p1;
+    delete p1;
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idTankTexture);
     Mix_FreeChunk(son1);
@@ -201,19 +225,18 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-
-void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1, Camera *c2, const Uint8 *state, GLUquadric *params, GLuint idTexture){
-    glViewport(0,0,width,height/2);
+void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                 GLUquadric *params, GLuint idTexture) {
+    glViewport(0, 0, width, height / 2);
     c1->move();
     p1->move(state, params, idTexture);
     Utils::drawCube(2000, .1, 2000);
     p1->draw();
     p2->draw();
-    glViewport(0, height/2, width,height);
+    glViewport(0, height / 2, width, height);
     glLoadIdentity();
     c2->move();
     Utils::drawCube(2000, .1, 2000);
     p2->draw();
     p1->draw();
-
 }
