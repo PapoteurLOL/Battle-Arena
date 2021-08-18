@@ -54,7 +54,7 @@ int main(int argc, char **args) {
     const Uint8 *state = nullptr;
 
     //jouer son
-    Mix_PlayChannel(2, son1, -1);
+   // Mix_PlayChannel(2, son1, -1);
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
@@ -184,7 +184,7 @@ int main(int argc, char **args) {
 }
 void drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                      GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre*> arbres, std::vector<Champignon*> champignons) {
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height/2);
     c1->move();
     p1->move(state, params, idTextureBullet);
     //dessiner skybox
@@ -213,6 +213,9 @@ void drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height
     //        for (Enemy *e : enemies) {
     //            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
     //        }
+
+
+
 
 //    glViewport(0, height / 2, width, height);
 //    glLoadIdentity();
