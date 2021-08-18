@@ -3,6 +3,7 @@
 #include <GL/glu.h>
 #include "Utils.h"
 #include "Camera.h"
+#include "Enemy.h"
 int main(int argc, char **args) {
     SDL_Window *win;
     int width = 800, height = 600;
@@ -37,6 +38,7 @@ int main(int argc, char **args) {
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
+    Enemy *enemy = new Enemy(params);
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
@@ -70,6 +72,7 @@ int main(int argc, char **args) {
             z += .1;
         }
         p1->move(state);
+        enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
         //dessin des différents objet dans la fenêtre
 
 
@@ -79,7 +82,7 @@ int main(int argc, char **args) {
 
         //Player
         p1->draw();
-
+        enemy->draw();
 
 
         //mise a jour de l'écran
