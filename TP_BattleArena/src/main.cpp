@@ -45,7 +45,7 @@ int main(int argc, char **args) {
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
-    float x = 50, y = 20, z = 50;
+    float x = 50, y = 30, z = 50;
     const Uint8 *state = nullptr;
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
@@ -133,24 +133,27 @@ int main(int argc, char **args) {
 //        for (auto arbre :arbres) {
 //            arbre->draw();
 //        }
-//        for (auto champ :champignons) {
-//            champ->draw();
-//        }
+        for (auto champ :champignons) {
+            champ->draw();
+        }
         glPopMatrix();
-        glPushMatrix();
+        //glBindTexture(GL_TEXTURE_2D, NULL);
+//        glPushMatrix();
+//        //corps champignon
+//        glColor3f(110.0 / 255.0, 40.0 / 255.0, 155.0 / 255.0);
+//        gluQuadricDrawStyle(params, GLU_FILL);
+//        glTranslatef(0, .01, 0);
+//        glRotatef(-90, 1, 0, 0);
+//        gluCylinder(params, 5, 2.5, 20, 10, 1);
+//
+//        //tete champignon
+//        glTranslatef(0, 0, 20);
+//        glColor3f(1, 1, 0);
+//        glScalef(1, 1, .20);
+//        gluSphere(params, 10, 20, 20);
+//        Utils::drawAxis(10);
+//        glPopMatrix();
 
-        glColor3f(110.0 / 255.0, 40.0 / 255.0, 155.0 / 255.0);
-        gluQuadricDrawStyle(params, GLU_FILL);
-        glTranslatef(0, .01, 0);
-        glRotatef(-90, 1, 0, 0);
-        gluCylinder(params, 5, 2.5, 20, 10, 1);
-        glScalef(1, 0.5, 0);
-        glColor3f(143.0 / 255.0, 89.0 / 255.0, 2.0 / 255.0);
-        gluQuadricDrawStyle(params, GLU_FILL);
-        glTranslatef(0, 0, 20);
-        gluSphere(params, 10, 20, 20);
-        glPopMatrix();
-        Utils::drawAxis(2);
 
         //mise a jour de l'écran
         glFlush();
