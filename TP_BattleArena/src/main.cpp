@@ -13,7 +13,7 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
-void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+void splitScreen(Player *p1, Player *p2, Enemy* enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                  GLUquadric *params, GLuint idTexture);
 int main(int argc, char **args) {
     srand(time(NULL));
@@ -169,7 +169,7 @@ int main(int argc, char **args) {
         //dessin des différents objet dans la fenêtre
 
 
-        splitScreen(p1, p2, width, height, c1, c2, state, params, idBulletTexture);
+        splitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture);
 
 
         //dessiner skybox
@@ -193,8 +193,6 @@ int main(int argc, char **args) {
         //Player
 
 
-        enemy->draw();
-        enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 //        for (Enemy *e : enemies) {
 //            e->draw();
 //        }
@@ -225,18 +223,23 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+void splitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                  GLUquadric *params, GLuint idTexture) {
-    glViewport(0, 0, width, height / 2);
+    glViewport(0, 0, width, height/2);
     c1->move();
     p1->move(state, params, idTexture);
     Utils::drawCube(2000, .1, 2000);
     p1->draw();
     p2->draw();
+    enemy->draw();
+    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+
     glViewport(0, height / 2, width, height);
     glLoadIdentity();
     c2->move();
     Utils::drawCube(2000, .1, 2000);
     p2->draw();
     p1->draw();
+    enemy->draw();
+    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 }
