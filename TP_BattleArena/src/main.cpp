@@ -13,7 +13,7 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
-void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+void splitScreen(Player *p1, Player *p2, Enemy* enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                  GLUquadric *params, GLuint idTexture);
 int main(int argc, char **args) {
     srand(time(NULL));
@@ -106,111 +106,109 @@ int main(int argc, char **args) {
     float enemyPosZ = -800;
     float enemyVelocity = .2;
     Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
-//    std::vector<Enemy *> enemies;
-//    for (int i = 0; i < 5; i++) {
-//        int sign = 1;
-//        if (rand()%2 == 0)
-//            sign = -1;
-//        else
-//            sign = 1;
-//        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
-//    }
+    //    std::vector<Enemy *> enemies;
+    //    for (int i = 0; i < 5; i++) {
+    //        int sign = 1;
+    //        if (rand()%2 == 0)
+    //            sign = -1;
+    //        else
+    //            sign = 1;
+    //        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
+    //    }
 
 
     while (isRunning) {
         glLoadIdentity();
-//        glPushMatrix();
-//        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+        //        glPushMatrix();
+        //        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
         //  c1->move();
-//        glPopMatrix();
+        //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
                      1.f); //permet d'expliquer avec quelle couleur on va remplir la memoire des couleurs
-        glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT); //permet de dire que la memoire des couleurs est prête à être modifié
-        //gestion évènement
-        SDL_PollEvent(&event);
-        state = SDL_GetKeyboardState(NULL);
-        if (event.type == SDL_QUIT) {
-            isRunning = false;
-        }
-        if (state[SDL_SCANCODE_ESCAPE]) {
-            isRunning = false;
-        }
-        if (state[SDL_SCANCODE_LEFT]) {
-            x -= .1;
-        }
-        if (state[SDL_SCANCODE_RIGHT]) {
-            x += .1;
-        }
-        if (state[SDL_SCANCODE_UP]) {
-            z -= .1;
-        }
-        if (state[SDL_SCANCODE_DOWN]) {
-            z += .1;
-        }
-        //OTHERCAMERA
-        if (state[SDL_SCANCODE_A]) {
-            x2 -= .1;
-        }
-        if (state[SDL_SCANCODE_D]) {
-            x2 += .1;
-        }
-        if (state[SDL_SCANCODE_W]) {
-            z2 -= .1;
-        }
-        if (state[SDL_SCANCODE_S]) {
-            z2 += .1;
-        }
-        //p1->move(state);
+                     glClear(GL_COLOR_BUFFER_BIT |
+                     GL_DEPTH_BUFFER_BIT); //permet de dire que la memoire des couleurs est prête à être modifié
+                     //gestion évènement
+                     SDL_PollEvent(&event);
+                     state = SDL_GetKeyboardState(NULL);
+                     if (event.type == SDL_QUIT) {
+                         isRunning = false;
+                     }
+                     if (state[SDL_SCANCODE_ESCAPE]) {
+                         isRunning = false;
+                     }
+                     if (state[SDL_SCANCODE_LEFT]) {
+                         x -= .1;
+                     }
+                     if (state[SDL_SCANCODE_RIGHT]) {
+                         x += .1;
+                     }
+                     if (state[SDL_SCANCODE_UP]) {
+                         z -= .1;
+                     }
+                     if (state[SDL_SCANCODE_DOWN]) {
+                         z += .1;
+                     }
+                     //OTHERCAMERA
+                     if (state[SDL_SCANCODE_A]) {
+                         x2 -= .1;
+                     }
+                     if (state[SDL_SCANCODE_D]) {
+                         x2 += .1;
+                     }
+                     if (state[SDL_SCANCODE_W]) {
+                         z2 -= .1;
+                     }
+                     if (state[SDL_SCANCODE_S]) {
+                         z2 += .1;
+                     }
+                     //p1->move(state);
 
-        p1->move(state, params, idBulletTexture);
-//        p2->move(state, params, idBulletTexture);
-        //dessin des différents objet dans la fenêtre
-
-
-        splitScreen(p1, p2, width, height, c1, c2, state, params, idBulletTexture);
+                     p1->move(state, params, idBulletTexture);
+                     //        p2->move(state, params, idBulletTexture);
+                     //dessin des différents objet dans la fenêtre
 
 
-        //dessiner skybox
-        glPushMatrix();
-        Utils::drawSkybox(250, 150, 250, idDesert);
-        glPopMatrix();
-        glPushMatrix();
-        glTranslatef(0, -10, 0);
-        Utils::drawCube(250, .01, 250);
-//        //dessiner arbres
-//        for (auto arbre :arbres) {
-//            arbre->draw();
-//        }
-//
-////dessiner champignons
-//        for (auto champ :champignons) {
-//            champ->draw();
-//        }
-        Utils::drawAxis(20);
-        glPopMatrix();
-        //Player
+                     splitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture);
 
 
-        enemy->draw();
-        enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-//        for (Enemy *e : enemies) {
-//            e->draw();
-//        }
-//
-//        for (Enemy *e : enemies) {
-//            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-//        }
+                     //dessiner skybox
+                     glPushMatrix();
+                     Utils::drawSkybox(250, 150, 250, idDesert);
+                     glPopMatrix();
+                     glPushMatrix();
+                     glTranslatef(0, -10, 0);
+                     Utils::drawCube(250, .01, 250);
+                     //        //dessiner arbres
+                     //        for (auto arbre :arbres) {
+                     //            arbre->draw();
+                     //        }
+                     //
+                     ////dessiner champignons
+                     //        for (auto champ :champignons) {
+                     //            champ->draw();
+                     //        }
+                     Utils::drawAxis(20);
+                     glPopMatrix();
+                     //Player
+
+
+                     //        for (Enemy *e : enemies) {
+                     //            e->draw();
+                     //        }
+                     //
+                     //        for (Enemy *e : enemies) {
+                     //            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+                     //        }
 
 
 
 
-        //mise a jour de l'écran
-        glFlush();
-        SDL_GL_SwapWindow(win);
-        //pause dans l'image
-        SDL_Delay(1);
+                     //mise a jour de l'écran
+                     glFlush();
+                     SDL_GL_SwapWindow(win);
+                     //pause dans l'image
+                     SDL_Delay(1);
     }
     delete p1;
     gluDeleteQuadric(params);
@@ -225,18 +223,23 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-void splitScreen(Player *p1, Player *p2, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+void splitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                  GLUquadric *params, GLuint idTexture) {
-    glViewport(0, 0, width, height / 2);
+    glViewport(0, 0, width, height/2);
     c1->move();
     p1->move(state, params, idTexture);
     Utils::drawCube(2000, .1, 2000);
     p1->draw();
     p2->draw();
+    enemy->draw();
+    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+
     glViewport(0, height / 2, width, height);
     glLoadIdentity();
     c2->move();
     Utils::drawCube(2000, .1, 2000);
     p2->draw();
     p1->draw();
+    enemy->draw();
+    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 }
