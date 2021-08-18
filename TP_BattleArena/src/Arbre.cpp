@@ -10,11 +10,11 @@ Arbre::Arbre(float x, float y, float z, GLUquadric *params) : x(x), y(y), z(z) {
     gluQuadricDrawStyle(params, GLU_FILL);
     glTranslatef(0, 2, 0);
     glRotatef(-90, 1, 0, 0);
-    gluCylinder(params, 1, .5, 4, 4, 4);
-    glTranslatef(0, 0, 4);
+    gluCylinder(params, 5, 1, 50, 20, 4);
+    glTranslatef(0, 0, 50);
     glColor3f(0, 1, 0);
     gluQuadricDrawStyle(params, GLU_FILL);
-    gluSphere(params, 2, 5, 5);
+    gluSphere(params, 5, 5, 5);
     glEndList();
 }
 void Arbre::draw() {
