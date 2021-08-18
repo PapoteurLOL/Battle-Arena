@@ -3,7 +3,11 @@
 #include <GL/glu.h>
 #include "Utils.h"
 #include "Camera.h"
-void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1,Camera *c2,const Uint8 *state);
+
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1,Camera *c2,const Uint8 *state,  GLUquadric *params, GLuint idTexture);
+
+#include "Projectile.h"
+
 int main(int argc, char **args) {
     SDL_Window *win;
     int width = 800, height = 600;
@@ -37,11 +41,14 @@ int main(int argc, char **args) {
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
+    GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
-    GLUquadric *params2 = gluNewQuadric();
-   Player *p2 = new Player(params2,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
+
+   Player *p2 = new Player(params,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
    Camera *c2 = new Camera(p2);
+
+
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
@@ -88,6 +95,10 @@ int main(int argc, char **args) {
             z2 += .1;
         }
         //p1->move(state);
+
+        p1->move(state, params, idBulletTexture);
+//        p2->move(state, params, idBulletTexture);
+
         //dessin des différents objet dans la fenêtre
 
        /* glViewport(0,0,width,height/2);
@@ -101,9 +112,15 @@ int main(int argc, char **args) {
         Utils::drawCube(10, .1, 10);*/
 
 
+
         //Player
         //p1->draw();
-        splitScreen(p1,p2,width,height,c1,c2,state);
+        splitScreen(p1,p2,width,height,c1,c2,state, params, idBulletTexture);
+
+
+        //Player
+        p1->draw();
+        p2->draw();
 
 
         //mise a jour de l'écran
@@ -124,18 +141,17 @@ int main(int argc, char **args) {
     return 0;
 }
 
-void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1, Camera *c2, const Uint8 *state){
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1, Camera *c2, const Uint8 *state, GLUquadric *params, GLuint idTexture){
     glViewport(0,0,width,height/2);
     c1->move();
-    p1->move(state);
-    Utils::drawCube(10, .1, 10);
+    p1->move(state, params, idTexture);
+    Utils::drawCube(2000, .1, 2000);
     p1->draw();
     p2->draw();
     glViewport(0, height/2, width,height);
     glLoadIdentity();
-    c1->move();
     c2->move();
-    Utils::drawCube(10, .1, 10);
+    Utils::drawCube(2000, .1, 2000);
     p2->draw();
     p1->draw();
 
