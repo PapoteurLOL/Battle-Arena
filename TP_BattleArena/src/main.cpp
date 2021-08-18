@@ -35,7 +35,7 @@ int main(int argc, char **args) {
     //appelle la matrice de projection
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
-    GLuint idDesert = loadTexture("./assets/desert-skybox.png");
+    GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
     GLUquadric *params = gluNewQuadric();
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
@@ -108,17 +108,17 @@ int main(int argc, char **args) {
 
         //dessiner skybox
         glPushMatrix();
-        drawSkybox(250, 150, 250, idDesert);
+        Utils::drawSkybox(250, 150, 250, idDesert);
         glPopMatrix();
         glPushMatrix();
         glTranslatef(0, -10, 0);
-        drawCube(250, .01, 250);
+        Utils::drawCube(250, .01, 250);
         //dessiner arbres
         for (auto arbre :arbres) {
             arbre->draw();
         }
         glPopMatrix();
-        drawAxis(2);
+        Utils::drawAxis(2);
 
         //mise a jour de l'écran
         glFlush();

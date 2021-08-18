@@ -1,11 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj"
-  "CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj"
-  "CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
-  "TP_BattleArena.exe"
-  "TP_BattleArena.exe.manifest"
+  "CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.o"
+  "CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.o"
+  "CMakeFiles/TP_BattleArena.dir/src/main.cpp.o"
+  "TP_BattleArena"
   "TP_BattleArena.pdb"
-  "libTP_BattleArena.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
