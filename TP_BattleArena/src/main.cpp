@@ -11,6 +11,9 @@
 #include "Utils.h"
 #include "Camera.h"
 #include "Projectile.h"
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1,Camera *c2,const Uint8 *state,  GLUquadric *params, GLuint idTexture);
+
+
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -41,12 +44,13 @@ int main(int argc, char **args) {
     //initialise la matrice de projection à 0
     glLoadIdentity();
     //modifie la matrice de projection pour avoir la perspective voulue
-    gluPerspective(70, (double) 800 / 600, 1, 1000);
+    gluPerspective(70, (double) (width / height), 1, 1000);
     glMatrixMode(GL_MODELVIEW);
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
-    float x = 100, y = 100, z = 100;
+    float x = 10, y = 10, z = 10;
+    float  x2 = 15,y2 = 10,z2 = 15;
     const Uint8 *state = nullptr;
 
     //jouer son
@@ -55,8 +59,11 @@ int main(int argc, char **args) {
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
-    Player *p2 = new Player(params, idTankTexture, 18, 16, {30, 1, 30}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
+
+   Player *p2 = new Player(params,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
+   Camera *c2 = new Camera(p2);
+
 
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
@@ -102,7 +109,7 @@ int main(int argc, char **args) {
         glLoadIdentity();
 //        glPushMatrix();
 //        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-        c1->move();
+      //  c1->move();
 //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
@@ -115,30 +122,43 @@ int main(int argc, char **args) {
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
-        if(state[SDL_SCANCODE_ESCAPE]){
+        if (state[SDL_SCANCODE_ESCAPE]) {
             isRunning = false;
         }
-        if(state[SDL_SCANCODE_LEFT]){
-            x-=.1;
+        if (state[SDL_SCANCODE_LEFT]) {
+            x -= .1;
         }
-        if(state[SDL_SCANCODE_RIGHT]){
-            x+=.1;
+        if (state[SDL_SCANCODE_RIGHT]) {
+            x += .1;
         }
-        if(state[SDL_SCANCODE_UP]){
-            z-=.1;
+        if (state[SDL_SCANCODE_UP]) {
+            z -= .1;
         }
-        if(state[SDL_SCANCODE_DOWN]){
-            z+=.1;
+        if (state[SDL_SCANCODE_DOWN]) {
+            z += .1;
         }
+        //OTHERCAMERA
+        if (state[SDL_SCANCODE_A]) {
+            x2-= .1;
+        }
+        if (state[SDL_SCANCODE_D]) {
+            x2 += .1;
+        }
+        if (state[SDL_SCANCODE_W]) {
+            z2 -= .1;
+        }
+        if (state[SDL_SCANCODE_S]) {
+            z2 += .1;
+        }
+        //p1->move(state);
+
         p1->move(state, params, idBulletTexture);
 //        p2->move(state, params, idBulletTexture);
         //dessin des différents objet dans la fenêtre
 
 
-        //plateforme
-        Utils::drawCube(2000,.1,2000);
-        glTranslatef(0,1,0);
-        Utils::drawAxis(50);
+        splitScreen(p1,p2,width,height,c1,c2,state, params, idBulletTexture);
+
 
         //dessiner skybox
         glPushMatrix();
@@ -165,12 +185,10 @@ int main(int argc, char **args) {
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
-        angleX += 0.1;
-        angleZ += 0.05;
         //pause dans l'image
         SDL_Delay(1);
     }
-    delete p1;
+    //delete p1;
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idTankTexture);
     Mix_FreeChunk(son1);
@@ -183,4 +201,19 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-                        
+
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1, Camera *c2, const Uint8 *state, GLUquadric *params, GLuint idTexture){
+    glViewport(0,0,width,height/2);
+    c1->move();
+    p1->move(state, params, idTexture);
+    Utils::drawCube(2000, .1, 2000);
+    p1->draw();
+    p2->draw();
+    glViewport(0, height/2, width,height);
+    glLoadIdentity();
+    c2->move();
+    Utils::drawCube(2000, .1, 2000);
+    p2->draw();
+    p1->draw();
+
+}
