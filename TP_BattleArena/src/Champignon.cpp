@@ -4,7 +4,7 @@
 
 #include "Champignon.h"
 Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(y), z(z) {
-    idTexture = glGenLists(1);
+    idTexture = glGenLists(2);
     glNewList(idTexture, GL_COMPILE);
     //glPushMatrix();
     //corps champignon
@@ -32,5 +32,5 @@ void Champignon::move() {
     angleRotate += .1;
 }
 Champignon::~Champignon() {
-    glDeleteLists(idTexture, 1);
+    glDeleteLists(idTexture, 2);
 }

@@ -81,7 +81,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionChampignons = sign * rand() % 250;
-        arbres.push_back(new Arbre(xPositionChampignons * 5, .01, zPositionChampignons * 5, params));
+        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
@@ -106,16 +106,16 @@ int main(int argc, char **args) {
             isRunning = false;
         }
         if (state[SDL_SCANCODE_LEFT]) {
-            x -= .1;
+            x -= .5;
         }
         if (state[SDL_SCANCODE_RIGHT]) {
-            x += .1;
+            x += .5;
         }
         if (state[SDL_SCANCODE_UP]) {
-            z -= .1;
+            z -= .5;
         }
         if (state[SDL_SCANCODE_DOWN]) {
-            z += .1;
+            z += .5;
         }
 
         //dessin des différents objet dans la fenêtre
@@ -129,31 +129,17 @@ int main(int argc, char **args) {
         glPushMatrix();
         glTranslatef(0, -10, 0);
         Utils::drawCube(250, .01, 250);
-        //dessiner arbres
+//        //dessiner arbres
 //        for (auto arbre :arbres) {
 //            arbre->draw();
 //        }
-        for (auto champ :champignons) {
-            champ->draw();
-        }
-        glPopMatrix();
-        //glBindTexture(GL_TEXTURE_2D, NULL);
-//        glPushMatrix();
-//        //corps champignon
-//        glColor3f(110.0 / 255.0, 40.0 / 255.0, 155.0 / 255.0);
-//        gluQuadricDrawStyle(params, GLU_FILL);
-//        glTranslatef(0, .01, 0);
-//        glRotatef(-90, 1, 0, 0);
-//        gluCylinder(params, 5, 2.5, 20, 10, 1);
 //
-//        //tete champignon
-//        glTranslatef(0, 0, 20);
-//        glColor3f(1, 1, 0);
-//        glScalef(1, 1, .20);
-//        gluSphere(params, 10, 20, 20);
-//        Utils::drawAxis(10);
-//        glPopMatrix();
-
+////dessiner champignons
+//        for (auto champ :champignons) {
+//            champ->draw();
+//        }
+        Utils::drawAxis(20);
+        glPopMatrix();
 
         //mise a jour de l'écran
         glFlush();
