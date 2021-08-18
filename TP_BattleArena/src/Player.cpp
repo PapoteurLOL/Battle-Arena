@@ -3,12 +3,13 @@
 //
 
 #include "Player.h"
-#include "Utils.h"
+
 Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,Coord coord,
                float angleRotation, float velocity, float velocityRotation, float hp) : coord(coord),
                                                                 angleRotation(angleRotation),
                                                                 velocityRotation(velocityRotation), velocity(velocity), hp(hp),
                                                                 taille(taille), radius(radius){
+    ability0 = new Ability(120, 0.1);
     idPlayer = glGenLists(2);
     glNewList(idPlayer, GL_COMPILE);
     glPushMatrix();
@@ -23,7 +24,7 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
     gluSphere(params, this->radius, 20, 20);
     glTranslatef(this->coord.x, this->radius / 2, this->radius / 2);
     glColor3f(75.3 / 255.0, 200.0 / 255.0, 45.6 / 255.0);
-    gluCylinder(params, this->radius / 4, this->radius / 4, this->radius * 2, 20, 20);
+    gluCylinder(params, this->radius / 8, this->radius / 8, this->radius, 20, 20);
     glBindTexture(GL_TEXTURE_2D,0);
     glPopMatrix();
     glEndList();
@@ -36,11 +37,11 @@ void Player::draw() {
     glTranslatef(coord.x, coord.y, coord.z);
     glCallList(idPlayer);
     glRotatef(this->angleRotation, 0, 1, 0);
-    Utils::drawAxis(50);
     glCallList(idPlayer + 1);
     glPopMatrix();
+    ability0->draw();
 }
-void Player::move(const Uint8 *state) {
+void Player::move(const Uint8 *state, GLUquadric *params, GLuint idTexture) {
     if (state[SDL_SCANCODE_A]) {
         angleRotation += velocityRotation;
     }
@@ -48,13 +49,17 @@ void Player::move(const Uint8 *state) {
         angleRotation -= velocityRotation;
     }
     if (state[SDL_SCANCODE_W]) {
-        coord.x += sin(angleRotation * M_PI / 180);
-        coord.z += cos(angleRotation * M_PI / 180);
+        coord.x += sin(angleRotation * M_PI / 180) * velocity;
+        coord.z += cos(angleRotation * M_PI / 180) * velocity;
     }
     if (state[SDL_SCANCODE_S]) {
-        coord.x -= sin(angleRotation * M_PI / 180);
-        coord.z -= cos(angleRotation * M_PI / 180);
+        coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
+        coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
     }
+    if (state[SDL_SCANCODE_SPACE] && ability0->getAmmoLeft() > 0) {
+        ability0->use(params, idTexture, (radius / 4) - 1, {coord.x, coord.y + taille+ radius / 2, coord.z}, 1, angleRotation);
+    }
+    ability0->move();
 }
 float Player::getX() const {
     return coord.x;
