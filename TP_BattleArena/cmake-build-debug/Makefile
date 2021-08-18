@@ -152,6 +152,30 @@ src/Arbre.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.s
 .PHONY : src/Arbre.cpp.s
 
+src/Champignon.obj: src/Champignon.cpp.obj
+.PHONY : src/Champignon.obj
+
+# target to build an object file
+src/Champignon.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj
+.PHONY : src/Champignon.cpp.obj
+
+src/Champignon.i: src/Champignon.cpp.i
+.PHONY : src/Champignon.i
+
+# target to preprocess a source file
+src/Champignon.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.i
+.PHONY : src/Champignon.cpp.i
+
+src/Champignon.s: src/Champignon.cpp.s
+.PHONY : src/Champignon.s
+
+# target to generate assembly for a file
+src/Champignon.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.s
+.PHONY : src/Champignon.cpp.s
+
 src/Utils.obj: src/Utils.cpp.obj
 .PHONY : src/Utils.obj
 
@@ -212,6 +236,9 @@ help:
 	@echo ... src/Arbre.obj
 	@echo ... src/Arbre.i
 	@echo ... src/Arbre.s
+	@echo ... src/Champignon.obj
+	@echo ... src/Champignon.i
+	@echo ... src/Champignon.s
 	@echo ... src/Utils.obj
 	@echo ... src/Utils.i
 	@echo ... src/Utils.s

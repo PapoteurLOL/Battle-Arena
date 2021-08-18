@@ -7,6 +7,7 @@
 #include <time.h>
 #include <SDL2/SDL_mixer.h>
 #include "Arbre.h"
+#include "Champignon.h"
 #include "Utils.h"
 int main(int argc, char **args) {
     srand(time(NULL));
@@ -47,7 +48,9 @@ int main(int argc, char **args) {
     float x = 50, y = 20, z = 50;
     const Uint8 *state = nullptr;
     std::vector<Arbre *> arbres;
+    std::vector<Champignon *> champignons;
     int nbArbres = 1000;
+    int nbChampignons = 500;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
         if (rand() % 2 == 0) {
@@ -63,6 +66,22 @@ int main(int argc, char **args) {
         }
         float zPositionArbres = sign * rand() % 250;
         arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params));
+    }
+    for (int nb = 0; nb < nbChampignons; ++nb) {
+        int sign = 1;
+        if (rand() % 2 == 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+        float xPositionChampignons = sign * rand() % 250;
+        if (rand() % 2 == 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+        float zPositionChampignons = sign * rand() % 250;
+        arbres.push_back(new Arbre(xPositionChampignons * 5, .01, zPositionChampignons * 5, params));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
@@ -111,17 +130,33 @@ int main(int argc, char **args) {
         glTranslatef(0, -10, 0);
         Utils::drawCube(250, .01, 250);
         //dessiner arbres
-        for (auto arbre :arbres) {
-            arbre->draw();
-        }
+//        for (auto arbre :arbres) {
+//            arbre->draw();
+//        }
+//        for (auto champ :champignons) {
+//            champ->draw();
+//        }
+        glPopMatrix();
+        glPushMatrix();
+
+        glColor3f(110.0 / 255.0, 40.0 / 255.0, 155.0 / 255.0);
+        gluQuadricDrawStyle(params, GLU_FILL);
+        glTranslatef(0, .01, 0);
+        glRotatef(-90, 1, 0, 0);
+        gluCylinder(params, 5, 2.5, 20, 10, 1);
+        glScalef(1, 0.5, 0);
+        glColor3f(143.0 / 255.0, 89.0 / 255.0, 2.0 / 255.0);
+        gluQuadricDrawStyle(params, GLU_FILL);
+        glTranslatef(0, 0, 20);
+        gluSphere(params, 10, 20, 20);
         glPopMatrix();
         Utils::drawAxis(2);
 
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
-        angleX += 0.5;
-        angleZ += 0.5;
+        angleX += 1;
+        angleZ += 1;
         //pause dans l'image
         SDL_Delay(1);
     }

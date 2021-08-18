@@ -13,10 +13,8 @@ Arbre::Arbre(float x, float y, float z, GLUquadric *params) : x(x), y(y), z(z) {
     gluCylinder(params, 1, .5, 4, 4, 4);
     glTranslatef(0, 0, 4);
     glColor3f(0, 1, 0);
-    gluQuadricDrawStyle(params, GLU_LINE);
+    gluQuadricDrawStyle(params, GLU_FILL);
     gluSphere(params, 2, 5, 5);
-    glTranslatef(2, 0, 1);
-    gluSphere(params, 1, 5, 5);
     glEndList();
 }
 void Arbre::draw() {

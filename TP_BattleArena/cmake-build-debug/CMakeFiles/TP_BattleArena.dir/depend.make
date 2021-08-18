@@ -4,10 +4,14 @@
 CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj: \
  ../src/Arbre.cpp \
  ../src/Arbre.h
+CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj: \
+ ../src/Champignon.cpp \
+ ../src/Champignon.h
 CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj: \
  ../src/Utils.cpp \
  ../src/Utils.h
 CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj: \
  ../src/Arbre.h \
+ ../src/Champignon.h \
  ../src/Utils.h \
  ../src/main.cpp

@@ -88,6 +88,12 @@
 		<Unit filename="C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h">
 			<Option target="TP_BattleArena"/>
 		</Unit>
+		<Unit filename="C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Champignon.cpp">
+			<Option target="TP_BattleArena"/>
+		</Unit>
+		<Unit filename="C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Champignon.h">
+			<Option target="TP_BattleArena"/>
+		</Unit>
 		<Unit filename="C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.cpp">
 			<Option target="TP_BattleArena"/>
 		</Unit>

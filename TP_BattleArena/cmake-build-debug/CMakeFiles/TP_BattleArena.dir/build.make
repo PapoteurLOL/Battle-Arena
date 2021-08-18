@@ -78,9 +78,22 @@ CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.s"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\Arbre.cpp" -o CMakeFiles\TP_BattleArena.dir\src\Arbre.cpp.s
 
+CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj: CMakeFiles/TP_BattleArena.dir/flags.make
+CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj: ../src/Champignon.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\TP_BattleArena.dir\src\Champignon.cpp.obj -c "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\Champignon.cpp"
+
+CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.i"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\Champignon.cpp" > CMakeFiles\TP_BattleArena.dir\src\Champignon.cpp.i
+
+CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.s"
+	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\Champignon.cpp" -o CMakeFiles\TP_BattleArena.dir\src\Champignon.cpp.s
+
 CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj: CMakeFiles/TP_BattleArena.dir/flags.make
 CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj: ../src/Utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\TP_BattleArena.dir\src\Utils.cpp.obj -c "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\Utils.cpp"
 
 CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.i: cmake_force
@@ -93,7 +106,7 @@ CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.s: cmake_force
 
 CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj: CMakeFiles/TP_BattleArena.dir/flags.make
 CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
 	C:\msys64\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\TP_BattleArena.dir\src\main.cpp.obj -c "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\src\main.cpp"
 
 CMakeFiles/TP_BattleArena.dir/src/main.cpp.i: cmake_force
@@ -107,6 +120,7 @@ CMakeFiles/TP_BattleArena.dir/src/main.cpp.s: cmake_force
 # Object files for target TP_BattleArena
 TP_BattleArena_OBJECTS = \
 "CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj" \
+"CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj" \
 "CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj" \
 "CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
 
@@ -114,13 +128,14 @@ TP_BattleArena_OBJECTS = \
 TP_BattleArena_EXTERNAL_OBJECTS =
 
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj
+TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/src/Champignon.cpp.obj
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/build.make
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/linklibs.rsp
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/objects1.rsp
 TP_BattleArena.exe: CMakeFiles/TP_BattleArena.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable TP_BattleArena.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable TP_BattleArena.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TP_BattleArena.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

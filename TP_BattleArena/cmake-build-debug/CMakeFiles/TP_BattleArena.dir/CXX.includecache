@@ -12,6 +12,12 @@ GL/gl.h
 GL/glu.h
 -
 
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Champignon.h
+GL/gl.h
+-
+GL/glu.h
+-
+
 C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
 GL/gl.h
 -
@@ -39,6 +45,8 @@ SDL2/SDL_mixer.h
 -
 Arbre.h
 C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
+Champignon.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Champignon.h
 Utils.h
 C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
 
