@@ -3,6 +3,7 @@
 #include <GL/glu.h>
 #include "Utils.h"
 #include "Camera.h"
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1,Camera *c2,const Uint8 *state);
 int main(int argc, char **args) {
     SDL_Window *win;
     int width = 800, height = 600;
@@ -26,24 +27,26 @@ int main(int argc, char **args) {
     //initialise la matrice de projection à 0
     glLoadIdentity();
     //modifie la matrice de projection pour avoir la perspective voulue
-    gluPerspective(70, (double) 800 / 600, 1, 1000);
+    gluPerspective(70, (double) (width / height), 1, 1000);
     glMatrixMode(GL_MODELVIEW);
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
-    float x = 100, y = 100, z = 100;
-    float  x2 = 10,y2 = 22,z2 = 50;
+    float x = 10, y = 10, z = 10;
+    float  x2 = 15,y2 = 10,z2 = 15;
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
-
+    GLUquadric *params2 = gluNewQuadric();
+   Player *p2 = new Player(params2,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
+   Camera *c2 = new Camera(p2);
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
 //        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-        c1->move();
+      //  c1->move();
 //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
@@ -71,41 +74,47 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_DOWN]) {
             z += .1;
         }
-        p1->move(state);
+        //OTHERCAMERA
+        if (state[SDL_SCANCODE_A]) {
+            x2-= .1;
+        }
+        if (state[SDL_SCANCODE_D]) {
+            x2 += .1;
+        }
+        if (state[SDL_SCANCODE_W]) {
+            z2 -= .1;
+        }
+        if (state[SDL_SCANCODE_S]) {
+            z2 += .1;
+        }
+        //p1->move(state);
         //dessin des différents objet dans la fenêtre
 
-        glLoadIdentity();
-        glViewport(0,height/2,800,height/2);
-        Utils::drawCube(100,.1,100);
-        glTranslatef(0,1,0);
+       /* glViewport(0,0,width,height/2);
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-        glViewport(0, height - height/2, width,height/2);
-        gluPerspective(70, (double) 800 / 600, 1, 1000);
+        Utils::drawCube(10,.1,10);
 
+        glViewport(0, height/2, width,height);
         glLoadIdentity();
         gluLookAt(x2, y2, z2, 0, 0, 0, 0, 1, 0);
-  
+        glTranslatef(15,1,10);
+        Utils::drawCube(10, .1, 10);*/
 
-
-
-        //plateforme
-        Utils::drawCube(2000, .1, 2000);
-        glTranslatef(0, 1, 0);
 
         //Player
-        p1->draw();
-
+        //p1->draw();
+        splitScreen(p1,p2,width,height,c1,c2,state);
 
 
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
-        angleX += 0.1;
-        angleZ += 0.05;
+       // angleX += 0.1;
+       // angleZ += 0.05;
         //pause dans l'image
         SDL_Delay(1);
     }
-    delete p1;
+    //delete p1;
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idTankTexture);
     SDL_GL_DeleteContext(context);
@@ -114,4 +123,20 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-                        
+
+void splitScreen(Player *p1,Player *p2,int width, int height, Camera *c1, Camera *c2, const Uint8 *state){
+    glViewport(0,0,width,height/2);
+    c1->move();
+    p1->move(state);
+    Utils::drawCube(10, .1, 10);
+    p1->draw();
+    p2->draw();
+    glViewport(0, height/2, width,height);
+    glLoadIdentity();
+    c1->move();
+    c2->move();
+    Utils::drawCube(10, .1, 10);
+    p2->draw();
+    p1->draw();
+
+}
