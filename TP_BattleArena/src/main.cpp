@@ -12,8 +12,10 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
-void drawsplitScreen(Player *p1, Player *p2, Enemy* enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                     GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre*> arbres, std::vector<Champignon*> champignons);
+void
+drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -44,13 +46,13 @@ int main(int argc, char **args) {
     //initialise la matrice de projection à 0
     glLoadIdentity();
     //modifie la matrice de projection pour avoir la perspective voulue
-    gluPerspective(70, (double) (width / height), 1, 4000);
+    gluPerspective(70, (double) (width / height), 1, 5000);
     glMatrixMode(GL_MODELVIEW);
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
     float x = 10, y = 10, z = 10;
-    float  x2 = 15,y2 = 10,z2 = 15;
+    float x2 = 15, y2 = 10, z2 = 15;
     const Uint8 *state = nullptr;
 
     //jouer son
@@ -58,13 +60,10 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 5, 5, 20);
+    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 1, 20);
     Camera *c1 = new Camera(p1);
-
-   Player *p2 = new Player(params,idTankTexture,18,16,{5,1,0},0,0.5,0.5,20);
-   Camera *c2 = new Camera(p2);
-
-
+    Player *p2 = new Player(params, idTankTexture, 18, 16, {5, 1, 0}, 0, 1, 0.5, 20);
+    Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
     int nbArbres = 1000;
@@ -107,7 +106,7 @@ int main(int argc, char **args) {
     float enemyPosX = 0;
     float enemyPosY = 20;
     float enemyPosZ = -800;
-    float enemyVelocity = .5;
+    float enemyVelocity = .2;
     Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
 //    std::vector<Enemy *> enemies;
 //    for (int i = 0; i < 5; i++) {
@@ -150,7 +149,7 @@ int main(int argc, char **args) {
         }
         //OTHERCAMERA
         if (state[SDL_SCANCODE_A]) {
-            x2-= .1;
+            x2 -= .1;
         }
         if (state[SDL_SCANCODE_D]) {
             x2 += .1;
@@ -182,13 +181,15 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-void drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                     GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre*> arbres, std::vector<Champignon*> champignons) {
+void
+drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons) {
     glViewport(0, 0, width, height);
     c1->move();
     p1->move(state, params, idTextureBullet);
     //dessiner skybox
-    Utils::drawSkybox(2000,2000,2000,idTextureSkybox);
+    Utils::drawSkybox(2000, 2000, 2000, idTextureSkybox);
     //dessiner platforme
     Utils::drawCube(2000, .1, 2000);
     //dessiner arbres
