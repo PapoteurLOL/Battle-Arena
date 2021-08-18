@@ -32,11 +32,13 @@ int main(int argc, char **args) {
     float angleX = 0;
     float angleZ = 0;
     float x = 100, y = 100, z = 100;
+    float  x2 = 10,y2 = 22,z2 = 50;
     const Uint8 *state = nullptr;
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
+
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
@@ -71,6 +73,19 @@ int main(int argc, char **args) {
         }
         p1->move(state);
         //dessin des différents objet dans la fenêtre
+
+        glLoadIdentity();
+        glViewport(0,height/2,800,height/2);
+        Utils::drawCube(100,.1,100);
+        glTranslatef(0,1,0);
+        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+        glViewport(0, height - height/2, width,height/2);
+        gluPerspective(70, (double) 800 / 600, 1, 1000);
+
+        glLoadIdentity();
+        gluLookAt(x2, y2, z2, 0, 0, 0, 0, 1, 0);
+  
+
 
 
         //plateforme
