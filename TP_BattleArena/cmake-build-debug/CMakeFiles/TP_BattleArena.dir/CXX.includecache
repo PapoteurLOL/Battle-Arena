@@ -6,21 +6,13 @@
 
 #IncludeRegexTransform: 
 
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.cpp
-Arbre.h
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
-
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
+/home/jlidou/Dev/librairieJeux/wsAout2021/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
 GL/gl.h
 -
 GL/glu.h
 -
 
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.cpp
-Utils.h
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
-
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+/home/jlidou/Dev/librairieJeux/wsAout2021/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
 GL/gl.h
 -
 string
@@ -28,7 +20,7 @@ string
 SDL2/SDL_image.h
 -
 
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp
+/home/jlidou/Dev/librairieJeux/wsAout2021/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp
 SDL2/SDL.h
 -
 SDL2/SDL_image.h
@@ -45,8 +37,8 @@ time.h
 -
 SDL2/SDL_mixer.h
 -
-Utils.h
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
 Arbre.h
-C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
+/home/jlidou/Dev/librairieJeux/wsAout2021/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
+Utils.h
+/home/jlidou/Dev/librairieJeux/wsAout2021/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
 
