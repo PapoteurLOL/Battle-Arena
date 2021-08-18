@@ -6,30 +6,40 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(GLUquadric *params) {
+Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
+    //x:0,y:20, z:-800
+
+    this->enemyPosX = x;
+    this->enemyPosY = y;
+    this->enemyPosZ = z;
+    this->velocity = velocity;
 
     enemyID = glGenLists(1);
     glNewList(enemyID, GL_COMPILE);
     glColor3ub(255, 5, 5);
 
-    gluQuadricDrawStyle(params, GLU_LINE);
+    gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 2, 0);
+    glTranslatef(0, 0, 0);
     glRotatef(90, 1, 0, 0);
+    glScalef(10,10,10);
     gluSphere(params, 2, 6, 6);
     glPopMatrix();
 
-    gluQuadricDrawStyle(params, GLU_LINE);
+
+    gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 5, 0);
+    glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
+    glScalef(10,10,10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 5, 0);
+    glTranslatef(0, 20, 0);
     glRotatef(0, 1, 0, 0);
+    glScalef(10,10,10);
     glColor3ub(50, 50, 50);
     gluCylinder(params, 1, .01, 5, 10, 10);
     glPopMatrix();
@@ -62,16 +72,17 @@ void Enemy::trackPlayer(float x, float y, float z) {
         rotationAngle =   acos(cosinus) * 180 / M_PI + 90;
 
 
-    std::cout << rotationAngle << std::endl;
-
     glPushMatrix();
     glRotatef(rotationAngle, 0, 1, 0);
-    //glTranslatef(cosinus,0, -sinus);
     glCallList(enemyID);
 
-    //enemyPosX += velocity * direction.x;
-//    enemyPosY += velocity * direction.y;
-    //enemyPosZ += velocity * direction.z;
+    enemyPosX += velocity * direction.x;
+    //enemyPosY += velocity * direction.y;
+    enemyPosZ += velocity * direction.z;
+
+
+    //std::cout << enemyPosX << ", " << enemyPosZ << std::endl;
+
 
     glPopMatrix();
 }

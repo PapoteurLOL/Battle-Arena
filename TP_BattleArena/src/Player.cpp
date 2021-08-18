@@ -48,8 +48,8 @@ void Player::move(const Uint8 *state) {
         angleRotation -= velocityRotation;
     }
     if (state[SDL_SCANCODE_W]) {
-        coord.x += sin(angleRotation * M_PI / 180);
-        coord.z += cos(angleRotation * M_PI / 180);
+        coord.x += sin(angleRotation * M_PI / 180) ;
+        coord.z += cos(angleRotation * M_PI / 180) ;
     }
     if (state[SDL_SCANCODE_S]) {
         coord.x -= sin(angleRotation * M_PI / 180);

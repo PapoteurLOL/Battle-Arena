@@ -20,14 +20,14 @@ private:
     GLuint enemyID;
 
     float enemyPosX = 0;
-    float enemyPosY = 0;
-    float enemyPosZ = 0;
-    float velocity = 0.01;
+    float enemyPosY = 20;
+    float enemyPosZ = -800;
+    float velocity = .2;
 
     float rotationAngle = 0;
 
 public:
-    Enemy(GLUquadric *params);
+    Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw() const;
     void trackPlayer(float x, float y, float z);
     virtual ~Enemy();
