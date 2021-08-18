@@ -11,22 +11,20 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
                                                                 taille(taille), radius(radius){
     ability0 = new Ability(120, 0.1);
     idPlayer = glGenLists(2);
+    gluQuadricDrawStyle(params, GLU_FILL);
     glNewList(idPlayer, GL_COMPILE);
-    glPushMatrix();
     Utils::drawCube(this->taille, this->taille, this->taille, idTexture);
-    glTranslatef(this->coord.x, this->taille * 2 - this->radius, this->coord.z);
     glEndList();
     glNewList(idPlayer + 1, GL_COMPILE);
-    gluQuadricDrawStyle(params, GLU_FILL);
+    glTranslatef(0, this->taille * 2 - this->radius,0);
     glColor3f(25.0 / 255.0, 89.0 / 255.0, 2.0 / 255.0);
     glBindTexture(GL_TEXTURE_2D,idTexture);
     gluQuadricTexture(params,GL_TRUE);
     gluSphere(params, this->radius, 20, 20);
-    glTranslatef(this->coord.x, this->radius / 2, this->radius / 2);
+    glTranslatef(0, this->radius / 2, this->radius / 2);
     glColor3f(75.3 / 255.0, 200.0 / 255.0, 45.6 / 255.0);
     gluCylinder(params, this->radius / 8, this->radius / 8, this->radius, 20, 20);
     glBindTexture(GL_TEXTURE_2D,0);
-    glPopMatrix();
     glEndList();
 }
 Player::~Player() {

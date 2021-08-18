@@ -44,8 +44,8 @@ int main(int argc, char **args) {
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
-        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-//        c1->move();
+//        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+        c1->move();
 //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
@@ -74,7 +74,7 @@ int main(int argc, char **args) {
             z += .1;
         }
         p1->move(state, params, idBulletTexture);
-        p2->move(state, params, idBulletTexture);
+//        p2->move(state, params, idBulletTexture);
         //dessin des différents objet dans la fenêtre
 
 
