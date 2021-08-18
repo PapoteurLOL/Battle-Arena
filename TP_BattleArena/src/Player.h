@@ -16,9 +16,10 @@ protected:
     float taille;
     float radius;
     Ability *ability0;
+    int edgeWorld;
 public:
     Player(GLUquadric *params, GLuint idTexture, float taille, float radius, Coord coord, float angleRotation,
-           float velocity, float velocityRotation, float hp);
+           float velocity, float velocityRotation, float hp, int widthWorld);
     void draw();
     float getTaille() const;
     float getRadius() const;
