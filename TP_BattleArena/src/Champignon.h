@@ -8,7 +8,7 @@
 #include <GL/glu.h>
 class Champignon {
 private:
-    float x, y, z, angleRotate = 0;
+    float x, y, z, angleRotate = 0, xVelocity = 1;
     GLuint idTexture;
 public:
     Champignon(float x, float y, float z, GLUquadric *params);

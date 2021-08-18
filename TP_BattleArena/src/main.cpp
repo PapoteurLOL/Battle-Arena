@@ -196,6 +196,9 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     for (auto arbre : arbres) {
         arbre->draw();
     }
+    for (auto champ : champignons) {
+        champ->move();
+    }
     //dessiner champignons
     for (auto champ : champignons) {
         champ->draw();
