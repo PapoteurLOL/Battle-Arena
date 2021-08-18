@@ -99,6 +99,55 @@ void Utils::drawCube(float tailleX, float tailleY, float tailleZ) {
     glEnd();
     glPopMatrix();
 }
+void Utils::drawCube(float tailleX, float tailleY, float tailleZ, float red, float green, float blue) {
+    glPushMatrix();
+    glScalef(tailleX, tailleY, tailleZ);
+    glBegin(GL_QUADS);
+    //face du bas
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(-1, -1, -1);
+
+    //face du gauche
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(-1, 1, 1);
+
+    //face du gauche
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, 1, -1);
+    glVertex3f(-1, 1, 1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(-1, 1, -1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(1, 1, 1);
+
+    //face du droite
+    glColor3f(red, green, blue);
+    glVertex3f(-1, 1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(-1, 1, -1);
+    glEnd();
+    glPopMatrix();
+}
+
 GLuint Utils::loadTexture(std::string path) {
     GLuint idTexture = 0;
     SDL_Surface *surfaceTemp1 = IMG_Load(path.c_str());
@@ -106,15 +155,15 @@ GLuint Utils::loadTexture(std::string path) {
         SDL_Log("file not load");
         exit(404);
     }
-    SDL_Surface *surfaceTemp2 = Utils::flipSurface(surfaceTemp1);
+    SDL_Surface *surfaceTemp2 = flipSurface(surfaceTemp1);
     glGenTextures(1, &idTexture);
     glBindTexture(GL_TEXTURE_2D, idTexture);
     int Mode = GL_RGB;
     if (surfaceTemp2->format->BytesPerPixel == 4) {
         Mode = GL_RGBA;
     }
-    glTexImage2D(GL_TEXTURE_2D, 0, Mode, surfaceTemp2->w, surfaceTemp2->h, 0, Mode, GL_UNSIGNED_BYTE,
-                 surfaceTemp2->pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, Mode, surfaceTemp2->w, surfaceTemp2->h, 0, Mode, GL_UNSIGNED_BYTE, surfaceTemp2->pixels);
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     SDL_FreeSurface(surfaceTemp1);
@@ -122,28 +171,75 @@ GLuint Utils::loadTexture(std::string path) {
     glBindTexture(GL_TEXTURE_2D, 0);
     return idTexture;
 }
-SDL_Surface* Utils::flipSurface(SDL_Surface *surface) {
-    int current_line, pitch;
-    SDL_Surface *fliped_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                                                       surface->w, surface->h,
-                                                       surface->format->BitsPerPixel,
-                                                       surface->format->Rmask,
-                                                       surface->format->Gmask,
-                                                       surface->format->Bmask,
-                                                       surface->format->Amask);
+
+SDL_Surface * Utils::flipSurface(SDL_Surface * surface){
+    int current_line,pitch;
+    SDL_Surface * fliped_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                                                        surface->w,surface->h,
+                                                        surface->format->BitsPerPixel,
+                                                        surface->format->Rmask,
+                                                        surface->format->Gmask,
+                                                        surface->format->Bmask,
+                                                        surface->format->Amask);
     SDL_LockSurface(surface);
     SDL_LockSurface(fliped_surface);
     pitch = surface->pitch;
-    for (current_line = 0; current_line < surface->h; current_line++) {
-        memcpy(&((unsigned char *) fliped_surface->pixels)[current_line * pitch],
-               &((unsigned char *) surface->pixels)[(surface->h - 1 -
-               current_line) * pitch],
+    for (current_line = 0; current_line < surface->h; current_line ++){
+        memcpy(&((unsigned char* )fliped_surface->pixels)[current_line*pitch],
+               &((unsigned char* )surface->pixels)[(surface->h - 1  -
+               current_line)*pitch],
                pitch);
     }
     SDL_UnlockSurface(fliped_surface);
     SDL_UnlockSurface(surface);
     return fliped_surface;
 }
+void Utils::drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTexture) {
+    glPushMatrix();
+    glScalef(tailleX, tailleY, tailleZ);
+    glBindTexture(GL_TEXTURE_2D, idTexture);
+    glBegin(GL_QUADS);
+    //face du bas
+    glColor3f(1, 1, 1);
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, -1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, -1, -1);
+
+    //face du devant
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, 1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, 1);
+
+    //face du gauche
+    glTexCoord2f(0,0);glVertex3f(-1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(-1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(-1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, 1);
+
+    //face du derriere
+    glTexCoord2f(0,0);glVertex3f(-1, -1, -1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, -1);
+
+    //face du droite
+    glTexCoord2f(0,0);glVertex3f(1, -1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, -1, -1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(1, 1, 1);
+
+    //face du haut
+    glTexCoord2f(0,0);glVertex3f(-1, 1, 1);
+    glTexCoord2f(1,0);glVertex3f(1, 1, 1);
+    glTexCoord2f(1,1);glVertex3f(1, 1, -1);
+    glTexCoord2f(0,1);glVertex3f(-1, 1, -1);
+    glEnd();
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void Utils::drawSkybox(float tailleX, float tailleY, float tailleZ, GLuint idTexture) {
     float v1_3 = 1.0 / 3.0;
     float v1_4 = 1.0 / 4.0;

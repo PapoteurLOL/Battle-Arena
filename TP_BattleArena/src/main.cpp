@@ -9,10 +9,12 @@
 #include "Arbre.h"
 #include "Champignon.h"
 #include "Utils.h"
+#include "Camera.h"
+#include "Projectile.h"
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
-    int width = 1024, height = 800;
+    int width = 800, height = 600;
     bool isRunning = true;
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_JPG);
@@ -35,7 +37,6 @@ int main(int argc, char **args) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
-    GLUquadric *params = gluNewQuadric();
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
     glLoadIdentity();
@@ -45,8 +46,18 @@ int main(int argc, char **args) {
     SDL_Event event;
     float angleX = 0;
     float angleZ = 0;
-    float x = 50, y = 30, z = 50;
+    float x = 100, y = 100, z = 100;
     const Uint8 *state = nullptr;
+
+    //jouer son
+    Mix_PlayChannel(2, son1, 0);
+    GLUquadric *params = gluNewQuadric();
+    GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
+    GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
+    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
+    Player *p2 = new Player(params, idTankTexture, 18, 16, {30, 1, 30}, 0, 0.5, 0.5, 20);
+    Camera *c1 = new Camera(p1);
+
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
     int nbArbres = 1000;
@@ -86,11 +97,13 @@ int main(int argc, char **args) {
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
     }
-    //jouer son
-    Mix_PlayChannel(2, son1, 0);
+
     while (isRunning) {
         glLoadIdentity();
-        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+//        glPushMatrix();
+//        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+        c1->move();
+//        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
                      1.f); //permet d'expliquer avec quelle couleur on va remplir la memoire des couleurs
@@ -102,25 +115,30 @@ int main(int argc, char **args) {
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
-        if (state[SDL_SCANCODE_ESCAPE]) {
+        if(state[SDL_SCANCODE_ESCAPE]){
             isRunning = false;
         }
-        if (state[SDL_SCANCODE_LEFT]) {
-            x -= .5;
+        if(state[SDL_SCANCODE_LEFT]){
+            x-=.1;
         }
-        if (state[SDL_SCANCODE_RIGHT]) {
-            x += .5;
+        if(state[SDL_SCANCODE_RIGHT]){
+            x+=.1;
         }
-        if (state[SDL_SCANCODE_UP]) {
-            z -= .5;
+        if(state[SDL_SCANCODE_UP]){
+            z-=.1;
         }
-        if (state[SDL_SCANCODE_DOWN]) {
-            z += .5;
+        if(state[SDL_SCANCODE_DOWN]){
+            z+=.1;
         }
-
+        p1->move(state, params, idBulletTexture);
+//        p2->move(state, params, idBulletTexture);
         //dessin des différents objet dans la fenêtre
 
+
         //plateforme
+        Utils::drawCube(2000,.1,2000);
+        glTranslatef(0,1,0);
+        Utils::drawAxis(50);
 
         //dessiner skybox
         glPushMatrix();
@@ -140,15 +158,21 @@ int main(int argc, char **args) {
 //        }
         Utils::drawAxis(20);
         glPopMatrix();
+        //Player
+        p1->draw();
+        p2->draw();
 
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
-        angleX += 1;
-        angleZ += 1;
+        angleX += 0.1;
+        angleZ += 0.05;
         //pause dans l'image
         SDL_Delay(1);
     }
+    delete p1;
+    gluDeleteQuadric(params);
+    glDeleteTextures(1, &idTankTexture);
     Mix_FreeChunk(son1);
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idDesert);
