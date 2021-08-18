@@ -21,7 +21,7 @@ int main(int argc, char **args) {
 
     //Preparer les differents sons
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    Mix_Chunk *son3 = Mix_LoadWAV("./assets/car.mp3");
+    Mix_Chunk *son1 = Mix_LoadWAV("./assets/car.mp3");
 
     //precise la version d opengl
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -53,11 +53,11 @@ int main(int argc, char **args) {
         float yPositionArbres = rand() % 250 - 250;
         arbres.push_back(new Arbre(xPositionArbres * 5, .01, yPositionArbres * 5, params));
     }
-    if (son1 == NULL || son2 == NULL) {
+    if (son1 == NULL) {
         SDL_Log("erreur chargement son");
     }
     //jouer son
-    Mix_PlayChannel(2, son3, 0);
+    Mix_PlayChannel(2, son1, 0);
     while (isRunning) {
         glLoadIdentity();
         gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
@@ -115,8 +115,6 @@ int main(int argc, char **args) {
         SDL_Delay(1);
     }
     Mix_FreeChunk(son1);
-    Mix_FreeChunk(son2);
-    Mix_FreeChunk(son3);
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idDesert);
     SDL_GL_DeleteContext(context);
