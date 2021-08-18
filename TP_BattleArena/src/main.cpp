@@ -8,7 +8,6 @@
 #include <SDL2/SDL_mixer.h>
 #include "Arbre.h"
 #include "Utils.h"
-void playMusic(int channel, Mix_Chunk *chunk, int loops);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -22,8 +21,8 @@ int main(int argc, char **args) {
 
     //Preparer les differents sons
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    Mix_Chunk *son1 = Mix_LoadWAV("./assets/Car-Theft-101.mp3");
-    Mix_Chunk *son2 = Mix_LoadWAV("./assets/Nighttime-Escape.mp3");
+    Mix_Chunk *son1 = Mix_LoadWAV("./assets/car.mp3");
+    Mix_Chunk *son2 = Mix_LoadWAV("./assets/escape.mp3");
 
     //precise la version d opengl
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -87,20 +86,9 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_DOWN]) {
             z += .1;
         }
-        if (state[SDL_SCANCODE_C] && event.type == SDL_KEYDOWN && event.key.repeat == 0) {
-            Mix_PlayChannel(1, son1, -1);
-        }
 
         //jouer son
-        //        Mix_PlayChannel(1, son1, 0);
-        //        if (Mix_Playing(1) != 0) {
-        //        }
-        //        Mix_PlayChannel(2, son2, 0);
-        //        if (Mix_Playing(2) != 0) {
-        //        }
-        //        playMusic(1, son1, 0);
-        //        playMusic(2, son2, 0);
-
+        Mix_PlayChannel(2, son1, 0);
 
         //dessin des différents objet dans la fenêtre
 
@@ -138,14 +126,5 @@ int main(int argc, char **args) {
     Mix_Quit();
     SDL_Quit();
     return 0;
-}
-void playMusic(int channel, Mix_Chunk *chunk, int loops) {
-    channel = Mix_PlayChannel(channel, chunk, loops);
-    if (channel < 0) {
-        return SDL_Log("Aucune chanson");
-    }
-    while (Mix_Playing(channel) != 0) {
-        SDL_Delay(20);
-    }
 }
                         

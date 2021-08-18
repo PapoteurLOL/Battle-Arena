@@ -1,1 +1,3 @@
-/usr/bin/c++ -g CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.o CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.o CMakeFiles/TP_BattleArena.dir/src/main.cpp.o -o TP_BattleArena  -lSDL2main -lSDL2 -lSDL2_image -lGL -lGLU -lSDL2_mixer 
+"C:\Program Files\JetBrains\CLion 2021.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\TP_BattleArena.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe cr CMakeFiles\TP_BattleArena.dir/objects.a @CMakeFiles\TP_BattleArena.dir\objects1.rsp
+C:\msys64\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\TP_BattleArena.dir/objects.a -Wl,--no-whole-archive -o TP_BattleArena.exe -Wl,--out-implib,libTP_BattleArena.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\TP_BattleArena.dir\linklibs.rsp
