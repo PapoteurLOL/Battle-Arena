@@ -7,7 +7,6 @@
 #include <GL/gl.h>
 #include <string>
 #include <SDL2/SDL_image.h>
-
 class Utils {
 public:
     static void drawAxis(float taille);
@@ -18,5 +17,6 @@ public:
     static void drawCube(float tailleX, float tailleY, float tailleZ, GLuint idTexture);
     static SDL_Surface * flipSurface(SDL_Surface * surface);
     static GLuint loadTexture(std::string path);
+    static void drawSkybox(float tailleX, float tailleY, float tailleZ, GLuint idTexture);
 };
 #endif //DEMOFIRSTSDL_UTILS_H

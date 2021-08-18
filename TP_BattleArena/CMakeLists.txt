@@ -27,6 +27,7 @@ if (WIN32)
             -lSDL2_image
             -lopengl32
             -lglu32
+            -lSDL2_mixer
     )
 endif ()
 if(UNIX)
@@ -37,5 +38,6 @@ if(UNIX)
             -lSDL2_image
             -lGL
             -lGLU
+            -lSDL2_mixer
     )
 endif()
