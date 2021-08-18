@@ -4,9 +4,7 @@
 
 #ifndef TP_BATTLEARENA_PLAYER_H
 #define TP_BATTLEARENA_PLAYER_H
-#include "Projectile.h"
-#include <vector>
-
+#include "Ability.h"
 class Player {
 protected:
     Coord coord;
@@ -17,11 +15,10 @@ protected:
     GLuint idPlayer;
     float taille;
     float radius;
-    std::vector<Projectile*> bullets;
-    float maxAmmo;
-    float ammoLeft;
+    Ability *ability0;
 public:
-    Player(GLUquadric *params, GLuint idTexture, float taille, float radius, Coord coord, float angleRotation, float velocity, float velocityRotation, float hp);
+    Player(GLUquadric *params, GLuint idTexture, float taille, float radius, Coord coord, float angleRotation,
+           float velocity, float velocityRotation, float hp);
     void draw();
     float getTaille() const;
     float getRadius() const;

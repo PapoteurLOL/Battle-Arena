@@ -9,6 +9,7 @@
 #include <SDL2/SDL.h>
 #include "iostream"
 #include "Utils.h"
+#include <vector>
 
 struct Coord {
     float x, y, z;
