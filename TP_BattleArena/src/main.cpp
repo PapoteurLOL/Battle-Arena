@@ -63,7 +63,7 @@ int main(int argc, char **args) {
     Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
-    int nbArbres = 1000;
+    int nbArbres = 200;
     int nbChampignons = 500;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
@@ -157,7 +157,7 @@ int main(int argc, char **args) {
         glPopMatrix();
         glPushMatrix();
         glTranslatef(0, -10, 0);
-        Utils::drawCube(250, .01, 250);
+        Utils::drawCube(500, .01, 500);
 //        //dessiner arbres
         for (auto arbre :arbres) {
             arbre->draw();

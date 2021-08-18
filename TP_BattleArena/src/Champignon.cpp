@@ -12,10 +12,10 @@ Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(
     gluQuadricDrawStyle(params, GLU_FILL);
     glTranslatef(0, .01, 0);
     glRotatef(-90, 1, 0, 0);
-    gluCylinder(params, 5, 2.5, 20, 10, 1);
+    gluCylinder(params, 5, 2.5, 50, 20, 1);
 
     //tete champignon
-    glTranslatef(0, 0, 20);
+    glTranslatef(0, 0, 50);
     glColor3f(1, 1, 0);
     glScalef(1, 1, .20);
     gluSphere(params, 10, 20, 20);
