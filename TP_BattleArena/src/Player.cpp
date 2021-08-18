@@ -38,8 +38,9 @@ void Player::draw() {
     glCallList(idPlayer);
     glRotatef(this->angleRotation, 0, 1, 0);
     glCallList(idPlayer + 1);
-    glPopMatrix();
     ability0->draw();
+    glPopMatrix();
+
 }
 void Player::move(const Uint8 *state, GLUquadric *params, GLuint idTexture) {
     if (state[SDL_SCANCODE_A]) {

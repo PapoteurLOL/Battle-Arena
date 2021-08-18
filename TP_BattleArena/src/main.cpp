@@ -38,13 +38,14 @@ int main(int argc, char **args) {
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20);
+    Player *p2 = new Player(params, idTankTexture, 18, 16, {30, 1, 30}, 0, 0.5, 0.5, 20);
     Camera *c1 = new Camera(p1);
 
     while (isRunning) {
         glLoadIdentity();
 //        glPushMatrix();
-//        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
-        c1->move();
+        gluLookAt(x, y, z, 0, 0, 0, 0, 1, 0);
+//        c1->move();
 //        glPopMatrix();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
@@ -73,6 +74,7 @@ int main(int argc, char **args) {
             z += .1;
         }
         p1->move(state, params, idBulletTexture);
+        p2->move(state, params, idBulletTexture);
         //dessin des différents objet dans la fenêtre
 
 
@@ -82,7 +84,7 @@ int main(int argc, char **args) {
 
         //Player
         p1->draw();
-
+        p2->draw();
 
         //mise a jour de l'écran
         glFlush();
