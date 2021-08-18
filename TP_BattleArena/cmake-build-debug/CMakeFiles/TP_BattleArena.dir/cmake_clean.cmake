@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj"
   "CMakeFiles/TP_BattleArena.dir/src/Utils.cpp.obj"
   "CMakeFiles/TP_BattleArena.dir/src/main.cpp.obj"
   "TP_BattleArena.exe"

@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2021.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena
+"C:\Program Files\JetBrains\CLion 2021.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - MinGW Makefiles" "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena"
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/cmake-build-debug
+-- Build files have been written to: C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/cmake-build-debug

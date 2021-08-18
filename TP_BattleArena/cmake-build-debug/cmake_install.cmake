@@ -1,8 +1,8 @@
-# Install script for directory: C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena
+# Install script for directory: C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/demoFirstSDL")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/TP_BattleArena")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -56,10 +56,10 @@ RM = "C:\Program Files\JetBrains\CLion 2021.2\bin\cmake\win\bin\cmake.exe" -E rm
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena
+CMAKE_SOURCE_DIR = "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\\CMakeFiles\progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Exercise\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\_workspace\Librairie Graphic\j03-lib-graphique-aout-2021-tp\TP_BattleArena\cmake-build-debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -127,6 +127,30 @@ TP_BattleArena: cmake_check_build_system
 TP_BattleArena/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/build
 .PHONY : TP_BattleArena/fast
+
+src/Arbre.obj: src/Arbre.cpp.obj
+.PHONY : src/Arbre.obj
+
+# target to build an object file
+src/Arbre.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.obj
+.PHONY : src/Arbre.cpp.obj
+
+src/Arbre.i: src/Arbre.cpp.i
+.PHONY : src/Arbre.i
+
+# target to preprocess a source file
+src/Arbre.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.i
+.PHONY : src/Arbre.cpp.i
+
+src/Arbre.s: src/Arbre.cpp.s
+.PHONY : src/Arbre.s
+
+# target to generate assembly for a file
+src/Arbre.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TP_BattleArena.dir\build.make CMakeFiles/TP_BattleArena.dir/src/Arbre.cpp.s
+.PHONY : src/Arbre.cpp.s
 
 src/Utils.obj: src/Utils.cpp.obj
 .PHONY : src/Utils.obj
@@ -185,6 +209,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... TP_BattleArena
+	@echo ... src/Arbre.obj
+	@echo ... src/Arbre.i
+	@echo ... src/Arbre.s
 	@echo ... src/Utils.obj
 	@echo ... src/Utils.i
 	@echo ... src/Utils.s

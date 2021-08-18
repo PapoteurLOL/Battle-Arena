@@ -6,17 +6,47 @@
 
 #IncludeRegexTransform: 
 
-C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.cpp
+Arbre.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
+
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
 GL/gl.h
 -
+GL/glu.h
+-
 
-C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.cpp
+Utils.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+GL/gl.h
+-
+string
+-
+SDL2/SDL_image.h
+-
+
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/main.cpp
 SDL2/SDL.h
+-
+SDL2/SDL_image.h
 -
 GL/gl.h
 -
 GL/glu.h
 -
+vector
+-
+stdlib.h
+-
+time.h
+-
+SDL2/SDL_mixer.h
+-
 Utils.h
-C:/Exercise/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Utils.h
+Arbre.h
+C:/_workspace/Librairie Graphic/j03-lib-graphique-aout-2021-tp/TP_BattleArena/src/Arbre.h
 
