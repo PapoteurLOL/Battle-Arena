@@ -47,11 +47,22 @@ int main(int argc, char **args) {
     float x = 50, y = 20, z = 50;
     const Uint8 *state = nullptr;
     std::vector<Arbre *> arbres;
-    int nbArbres = 500;
+    int nbArbres = 1000;
     for (int nb = 0; nb < nbArbres; ++nb) {
-        float xPositionArbres = rand() % 250 - 250;
-        float yPositionArbres = rand() % 250 - 250;
-        arbres.push_back(new Arbre(xPositionArbres * 5, .01, yPositionArbres * 5, params));
+        int sign = 1;
+        if (rand() % 2 == 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+        float xPositionArbres = sign * rand() % 250;
+        if (rand() % 2 == 0) {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
+        float zPositionArbres = sign * rand() % 250;
+        arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
