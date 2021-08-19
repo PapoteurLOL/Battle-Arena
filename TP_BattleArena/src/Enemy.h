@@ -11,8 +11,10 @@
 #include <GL/glu.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 
 #include "Utilities/Point.h"
+#include "Egg.h"
 
 class Enemy {
 
@@ -26,10 +28,25 @@ private:
 
     float rotationAngle = 0;
 
+    std::vector <Egg*> eggs;
+    bool eggReady = false;
+
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw() const;
     void trackPlayer(float x, float y, float z);
+
+    void spawnEgg(GLUquadric *params);
+    void updateEggPosition();
+
+    void setEggReady(bool eggReady);
+    bool isEggReady() const;
+
+    float getEnemyPosX() const;
+    float getEnemyPosY() const;
+    float getEnemyPosZ() const;
+
+
     virtual ~Enemy();
 };
 

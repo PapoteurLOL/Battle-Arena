@@ -6,7 +6,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
+Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
     //x:0,y:20, z:-800
 
     this->enemyPosX = x;
@@ -22,7 +22,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
     glPushMatrix();
     glTranslatef(0, 0, 0);
     glRotatef(90, 1, 0, 0);
-    glScalef(10,10,10);
+    glScalef(10, 10, 10);
     gluSphere(params, 2, 6, 6);
     glPopMatrix();
 
@@ -31,18 +31,18 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
     glPushMatrix();
     glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
-    glScalef(10,10,10);
+    glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
 
-    gluQuadricDrawStyle(params, GLU_FILL);
-    glPushMatrix();
-    glTranslatef(0, 20, 0);
-    glRotatef(0, 1, 0, 0);
-    glScalef(10,10,10);
-    glColor3ub(50, 50, 50);
-    gluCylinder(params, 1, .01, 5, 10, 10);
-    glPopMatrix();
+//    gluQuadricDrawStyle(params, GLU_FILL);
+//    glPushMatrix();
+//    glTranslatef(0, 20, 0);
+//    glRotatef(0, 1, 0, 0);
+//    glScalef(10,10,10);
+//    glColor3ub(50, 50, 50);
+//    gluCylinder(params, 1, .01, 5, 10, 10);
+//    glPopMatrix();
 
     glEndList();
 }
@@ -69,7 +69,7 @@ void Enemy::trackPlayer(float x, float y, float z) {
     if (z > 0)
         rotationAngle = -acos(cosinus) * 180 / M_PI;
     if (z <= 0)
-        rotationAngle =   acos(cosinus) * 180 / M_PI + 90;
+        rotationAngle = acos(cosinus) * 180 / M_PI + 90;
 
 
     glPushMatrix();
@@ -89,6 +89,42 @@ void Enemy::trackPlayer(float x, float y, float z) {
 
 Enemy::~Enemy() {
     glDeleteLists(enemyID, 1);
+}
+
+void Enemy::spawnEgg(GLUquadric *params) {
+    if (isEggReady()) {
+        Egg *egg = new Egg(params, getEnemyPosX(), getEnemyPosY(), getEnemyPosZ(), 15);
+        egg->move();
+    }
+}
+
+float Enemy::getEnemyPosX() const {
+    return enemyPosX;
+}
+
+float Enemy::getEnemyPosY() const {
+    return enemyPosY;
+}
+
+float Enemy::getEnemyPosZ() const {
+    return enemyPosZ;
+}
+
+void Enemy::updateEggPosition() {
+    if (!eggs.empty()) {
+        for (Egg *e : eggs) {
+            e->move();
+        }
+    }
+
+}
+
+void Enemy::setEggReady(bool eggReady) {
+    Enemy::eggReady = eggReady;
+}
+
+bool Enemy::isEggReady() const {
+    return eggReady;
 }
 
 
