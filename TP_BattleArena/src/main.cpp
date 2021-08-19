@@ -63,7 +63,7 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 1, 20);
+    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 2, 1, 20);
     Camera *c1 = new Camera(p1);
     Player *p2 = new Player(params, idTankTexture, 18, 16, {5, 1, 0}, 0, 1, 0.5, 20);
     Camera *c2 = new Camera(p2);
@@ -111,15 +111,7 @@ int main(int argc, char **args) {
     float enemyPosZ = -800;
     float enemyVelocity = .2;
     Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
-//    std::vector<Enemy *> enemies;
-//    for (int i = 0; i < 5; i++) {
-//        int sign = 1;
-//        if (rand()%2 == 0)
-//            sign = -1;
-//        else
-//            sign = 1;
-//        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
-//    }
+
 
 
     while (isRunning) {
@@ -163,6 +155,9 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_S]) {
             z2 += .1;
         }
+
+
+
         drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
                         champignons);
         //mise a jour de l'écran
@@ -192,44 +187,27 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     c1->move();
     p1->move(state, params, idTextureBullet);
 
-    ///DO NOT MOVE THIS !!!! ///////////////////////
-    //egg->draw();
-
 
 //    //dessiner skybox
-//    Utils::drawSkybox(2000,2000,2000,idTextureSkybox);
+    //Utils::drawSkybox(2000,2000,2000,idTextureSkybox);
 //
 //    //dessiner platforme
-    Utils::drawCube(2000, .1, 2000);
+    //Utils::drawCube(2000, .1, 2000);
     //dessiner arbres
     for (auto arbre : arbres) {
-        arbre->draw();
+        //arbre->draw();
     }
     //dessiner champignons
     for (auto champ : champignons) {
-        champ->draw();
+        //champ->draw();
     }
     //dessiner player
     p1->draw();
-    p2->draw();
+    //p2->draw();
     //dessiner enemy
     enemy->draw();
+    enemy->spawnEgg(params);
     enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 
-    //        for (Enemy *e : enemies) {
-    //            e->draw();
-    //        }
-    //
-    //        for (Enemy *e : enemies) {
-    //            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-    //        }
 
-//    glViewport(0, height / 2, width, height);
-//    glLoadIdentity();
-//    c2->move();
-//    Utils::drawCube(2000, .1, 2000);
-//    p2->draw();
-//    p1->draw();
-//    enemy->draw();
-//    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 }

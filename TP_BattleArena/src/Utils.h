@@ -18,6 +18,5 @@ public:
     static SDL_Surface * flipSurface(SDL_Surface * surface);
     static GLuint loadTexture(std::string path);
     static void drawSkybox(float tailleX, float tailleY, float tailleZ, GLuint idTexture);
-    
 };
 #endif //DEMOFIRSTSDL_UTILS_H

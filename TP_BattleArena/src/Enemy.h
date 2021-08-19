@@ -31,6 +31,10 @@ private:
     std::vector <Egg*> eggs;
     bool eggReady = false;
 
+    Uint32 currentTime = 0;
+    Uint32 lastUpdate = 0;
+    int timeToEggReady = 0;
+
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw() const;
