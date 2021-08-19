@@ -20,6 +20,7 @@ Projectile::Projectile(GLUquadric *params, GLuint idTexture, float radius, const
     glBindTexture(GL_TEXTURE_2D, 0);
     glPopMatrix();
     glEndList();
+
 }
 void Projectile::draw() {
     glPushMatrix();
@@ -41,3 +42,19 @@ void Projectile::move() {
 bool Projectile::isActive() const {
     return active;
 }
+float Projectile::getRadius() const {
+    return radius;
+}
+float Projectile::getX() const {
+    return coord.x;
+}
+float Projectile::getY() const {
+    return coord.y;
+}
+float Projectile::getZ() const {
+    return coord.z;
+}
+void Projectile::setActive(bool active) {
+    Projectile::active = active;
+}
+

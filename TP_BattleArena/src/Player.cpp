@@ -18,10 +18,13 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
     idPlayer = glGenLists(2);
     gluQuadricDrawStyle(params, GLU_FILL);
     glNewList(idPlayer, GL_COMPILE);
+    glPushMatrix();
+    glTranslatef(0, this->taille, 0);
     Utils::drawCube(this->taille, this->taille, this->taille, idTexture);
+    glPopMatrix();
     glEndList();
     glNewList(idPlayer + 1, GL_COMPILE);
-    glTranslatef(0, this->taille * 2 - this->radius, 0);
+    glTranslatef(0, this->taille * 3 - this->radius, 0);
     glColor3f(25.0 / 255.0, 89.0 / 255.0, 2.0 / 255.0);
     glBindTexture(GL_TEXTURE_2D, idTexture);
     gluQuadricTexture(params, GL_TRUE);
@@ -32,49 +35,77 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
     glBindTexture(GL_TEXTURE_2D, 0);
     glEndList();
     edgeWorld = widthWorld - taille - radius * 1.5;
+    dead = false;
+    sonHit = Mix_LoadWAV("./assets/hit.mp3");
+    sonDead = Mix_LoadWAV("./assets/explosion.mp3");
+    active = true;
 }
 Player::~Player() {
     glDeleteLists(idPlayer, 1);
 }
 void Player::draw() {
-    glPushMatrix();
-    glTranslatef(coord.x, coord.y, coord.z);
-    glCallList(idPlayer);
-    glRotatef(this->angleRotation, 0, 1, 0);
-    glCallList(idPlayer + 1);
-    glPopMatrix();
-    glPushMatrix();
-    ability0->draw();
-    glPopMatrix();
+    if(!dead){
+        glPushMatrix();
+        glTranslatef(coord.x, coord.y, coord.z);
+        glCallList(idPlayer);
+        glRotatef(this->angleRotation, 0, 1, 0);
+        glCallList(idPlayer + 1);
+        glPopMatrix();
+        glPushMatrix();
+        ability0->draw();
+        glPopMatrix();
+    } else {
+        if(SDL_GetTicks() - timeOfDeath < timerDeathAnim * 1000){
+            coord.x += 0.01;
+            coord.z+=0.01;
+            angleRotation+= 0.5;
+            glPushMatrix();
+            glTranslatef(coord.x, coord.y + taille, coord.z);
+            glRotatef(this->angleRotation, 1, 0, 0);
+            glRotatef(this->angleRotation, 0, 1, 0);
+            glRotatef(this->angleRotation, 0, 0, 1);
+            glCallList(idPlayer);
+            glCallList(idPlayer + 1);
+            glPopMatrix();
+            glPushMatrix();
+            ability0->draw();
+            glPopMatrix();
+        } else {
+            active = false;
+        }
+    }
 }
 void Player::move(const Uint8 *state, GLUquadric *params, GLuint idTexture) {
-    if (state[SDL_SCANCODE_A]) {
-        angleRotation += velocityRotation;
+    if (!dead){
+        if (state[SDL_SCANCODE_A]) {
+            angleRotation += velocityRotation;
+        }
+        if (state[SDL_SCANCODE_D]) {
+            angleRotation -= velocityRotation;
+        }
+        if (state[SDL_SCANCODE_W]) {
+            coord.x += sin(angleRotation * M_PI / 180) * velocity;
+            coord.z += cos(angleRotation * M_PI / 180) * velocity;
+        }
+        if (state[SDL_SCANCODE_S]) {
+            coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
+            coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
+        }
+        if (state[SDL_SCANCODE_SPACE] && ability0->getAmmoLeft() > 0) {
+            ability0->use(params, idTexture, (radius / 4) - 1, {coord.x, coord.y + taille + radius / 2, coord.z}, 1,
+                          angleRotation);
+        }
+        if (coord.x > edgeWorld)
+            coord.x = edgeWorld;
+        if (coord.z > edgeWorld)
+            coord.z = edgeWorld;
+        if (coord.x < edgeWorld * -1)
+            coord.x = edgeWorld * -1;
+        if (coord.z < edgeWorld * -1)
+            coord.z = edgeWorld * -1;
+        ability0->move();
     }
-    if (state[SDL_SCANCODE_D]) {
-        angleRotation -= velocityRotation;
-    }
-    if (state[SDL_SCANCODE_W]) {
-        coord.x += sin(angleRotation * M_PI / 180) * velocity;
-        coord.z += cos(angleRotation * M_PI / 180) * velocity;
-    }
-    if (state[SDL_SCANCODE_S]) {
-        coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
-        coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
-    }
-    if (state[SDL_SCANCODE_SPACE] && ability0->getAmmoLeft() > 0) {
-        ability0->use(params, idTexture, (radius / 4) - 1, {coord.x, coord.y + taille + radius / 2, coord.z}, 1,
-                      angleRotation);
-    }
-    if (coord.x > edgeWorld)
-        coord.x = edgeWorld;
-    if (coord.z > edgeWorld)
-        coord.z = edgeWorld;
-    if (coord.x < edgeWorld * -1)
-        coord.x = edgeWorld * -1;
-    if (coord.z < edgeWorld * -1)
-        coord.z = edgeWorld * -1 ;
-    ability0->move();
+
 }
 float Player::getX() const {
     return coord.x;
@@ -98,3 +129,25 @@ void Player::forceMoveBack() {
     coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
     coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
 }
+void Player::takeDamage(float damage) {
+    hp -= damage;
+    if (hp < 0 && !dead){
+        dead = true;
+        timerDeathAnim = 15;
+        timeOfDeath = SDL_GetTicks();
+        Mix_PlayChannel(4, sonDead, 0);
+    } else {
+        Mix_PlayChannel(3, sonHit, 0);
+    }
+
+}
+Ability *Player::getAbility0() const {
+    return ability0;
+}
+bool Player::isDead() const {
+    return dead;
+}
+bool Player::isActive() const {
+    return active;
+}
+

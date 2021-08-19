@@ -24,12 +24,19 @@ protected:
     float angleTrajectoire;
     float traveled;
     bool active;
+
 public:
     Projectile(GLUquadric *params, GLuint idTexture, float radius, const Coord &coord, float velocity, float angle);
     virtual void draw();
     virtual ~Projectile();
     bool isActive() const;
+
     virtual  void move();
+    float getRadius() const;
+    float getX() const;
+    float getY() const;
+    void setActive(bool active);
+    float getZ() const;
 };
 
 #endif //TP_BATTLEARENA_PROJECTILE_H

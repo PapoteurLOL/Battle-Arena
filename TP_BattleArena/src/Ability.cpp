@@ -8,6 +8,8 @@ Ability::Ability(float maxAmmo, float cd) {
     ammoLeft = maxAmmo;
     cooldown = cd;
     currentTime = SDL_GetTicks();
+    sonShoot = Mix_LoadWAV("./assets/gun.mp3");
+    damage = 5;
 }
 void Ability::use(GLUquadric *params, GLuint idTexture, float radius, Coord coord, float velocity, float angle) {
     if (SDL_GetTicks() - currentTime >= cooldown * 1000){
@@ -15,6 +17,7 @@ void Ability::use(GLUquadric *params, GLuint idTexture, float radius, Coord coor
         bullets.push_back(bullet);
         ammoLeft--;
         currentTime = SDL_GetTicks();
+        Mix_PlayChannel(3, sonShoot, 0);
     }
 }
 void Ability::draw() {
@@ -37,4 +40,10 @@ void Ability::move() {
             bullets[i]->move();
         }
     }
+}
+const std::vector<Projectile *> &Ability::getBullets() const {
+    return bullets;
+}
+float Ability::getDamage() const {
+    return damage;
 }

@@ -25,7 +25,6 @@ int main(int argc, char **args) {
     bool isRunning = true;
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_JPG || IMG_INIT_PNG);
-
     Mix_Init(MIX_INIT_MP3);
     win = SDL_CreateWindow("opengl Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                            SDL_WINDOW_OPENGL);
@@ -33,6 +32,7 @@ int main(int argc, char **args) {
     //Preparer les differents sons
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
     Mix_Chunk *son1 = Mix_LoadWAV("./assets/car.mp3");
+
 
     //precise la version d opengl
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -165,6 +165,8 @@ int main(int argc, char **args) {
         }
         drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
                         champignons, tailleMonde, collisionManager);
+        if (!p1->isActive() || !p2->isActive())
+            isRunning = false;
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
@@ -190,11 +192,12 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
     glViewport(0, 0, width, height);
     c1->move();
-    if (!collmanag->collisionCheck(p1)){
+    if (!collmanag->collisionCheck(p1)) {
         p1->move(state, params, idTextureBullet);
     } else {
         p1->forceMoveBack();
     }
+    collmanag->collisionBulletCheck(p1, p2);
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
@@ -212,7 +215,7 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     p2->draw();
     //dessiner enemy
     enemy->draw();
-    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+//    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 
     //        for (Enemy *e : enemies) {
     //            e->draw();

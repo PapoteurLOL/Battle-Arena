@@ -14,5 +14,6 @@ protected:
 public:
     CollisionManager(const std::vector<Arbre *> &arbres, const std::vector<Champignon *> &champignons);
     bool collisionCheck(Player * p);
+    bool collisionBulletCheck(Player * playerThatShoot, Player * playerShot);
 };
 #endif //TP_BATTLEARENA_COLLISIONMANAGER_H
