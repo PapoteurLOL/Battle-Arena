@@ -68,7 +68,7 @@ int main(int argc, char **args) {
     Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
-    int nbArbres = 500;
+    int nbArbres = 10;
     int nbChampignons = 200;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
@@ -189,8 +189,10 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
     glViewport(0, 0, width, height);
     c1->move();
-    if (collmanag->collisionCheck(p1)){
+    if (!collmanag->collisionCheck(p1)){
         p1->move(state, params, idTextureBullet);
+    } else {
+        p1->move(new Uint8(SDL_SCANCODE_S), params, idTextureBullet);
     }
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
