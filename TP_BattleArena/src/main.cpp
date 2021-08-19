@@ -12,17 +12,20 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
+#include "CollisionManager.h"
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons);
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
     int width = 800, height = 600;
+    int tailleMonde = 2000;
     bool isRunning = true;
     SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_JPG);
+    IMG_Init(IMG_INIT_JPG || IMG_INIT_PNG);
+
     Mix_Init(MIX_INIT_MP3);
     win = SDL_CreateWindow("opengl Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                            SDL_WINDOW_OPENGL);
@@ -46,7 +49,7 @@ int main(int argc, char **args) {
     //initialise la matrice de projection à 0
     glLoadIdentity();
     //modifie la matrice de projection pour avoir la perspective voulue
-    gluPerspective(70, (double) (width / height), 1, 5000);
+    gluPerspective(70, (double) (width / height), 1, tailleMonde * 3);
     glMatrixMode(GL_MODELVIEW);
     SDL_Event event;
     float angleX = 0;
@@ -60,14 +63,14 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 1, 20);
+    Player *p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 20, tailleMonde);
     Camera *c1 = new Camera(p1);
-    Player *p2 = new Player(params, idTankTexture, 18, 16, {5, 1, 0}, 0, 1, 0.5, 20);
+    Player *p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 1, 0.5, 20, tailleMonde);
     Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
-    int nbArbres = 1000;
-    int nbChampignons = 500;
+    int nbArbres = 250;
+    int nbChampignons = 100;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
         if (rand() % 2 == 0) {
@@ -82,7 +85,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionArbres = sign * rand() % 250;
-        arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params));
+        arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params, 5));
     }
     for (int nb = 0; nb < nbChampignons; ++nb) {
         int sign = 1;
@@ -98,7 +101,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionChampignons = sign * rand() % 250;
-        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params));
+        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params, 5));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
@@ -118,7 +121,7 @@ int main(int argc, char **args) {
 //        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
 //    }
 
-
+    CollisionManager *collisionManager = new CollisionManager(arbres, champignons);
     while (isRunning) {
         glLoadIdentity();
         //Nettoyer la fenêtre
@@ -161,7 +164,7 @@ int main(int argc, char **args) {
             z2 += .1;
         }
         drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
-                        champignons);
+                        champignons, tailleMonde, collisionManager);
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
@@ -184,14 +187,18 @@ int main(int argc, char **args) {
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons) {
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
     glViewport(0, 0, width, height);
     c1->move();
-    p1->move(state, params, idTextureBullet);
+    if (!collmanag->collisionCheck(p1)){
+        p1->move(state, params, idTextureBullet);
+    } else {
+        p1->forceMoveBack();
+    }
     //dessiner skybox
-    Utils::drawSkybox(2000, 2000, 2000, idTextureSkybox);
+    Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
-    Utils::drawCube(2000, .1, 2000);
+    Utils::drawCube(tailleMonde, .1, tailleMonde);
     //dessiner arbres
     for (auto arbre : arbres) {
         arbre->draw();

@@ -10,8 +10,14 @@ class Champignon {
 private:
     float x, y, z, angleRotate = 0;
     GLuint idTexture;
+    float radius;
 public:
-    Champignon(float x, float y, float z, GLUquadric *params);
+    float getX() const;
+    float getY() const;
+    float getZ() const;
+    float getRadius() const;
+public:
+    Champignon(float x, float y, float z, GLUquadric *params, float radius);
     void draw();
     void move();
     virtual ~Champignon();
