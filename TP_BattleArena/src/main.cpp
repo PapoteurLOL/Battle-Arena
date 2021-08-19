@@ -63,7 +63,7 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 20, tailleMonde);
+    Player *p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 2, 0.5, 20, tailleMonde);
     Camera *c1 = new Camera(p1);
     Player *p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 1, 0.5, 20, tailleMonde);
     Camera *c2 = new Camera(p2);
