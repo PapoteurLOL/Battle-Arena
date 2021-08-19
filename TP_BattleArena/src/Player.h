@@ -30,5 +30,6 @@ public:
     float getY() const;
     float getZ() const;
     float getAngleRotation() const;
+    void forceMoveBack();
 };
 #endif //TP_BATTLEARENA_PLAYER_H

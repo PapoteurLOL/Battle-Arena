@@ -6,11 +6,13 @@
 #define TP_BATTLEARENA_COLLISIONMANAGER_H
 #include "Player.h"
 #include "Arbre.h"
+#include "Champignon.h"
 class CollisionManager {
 protected:
     std::vector<Arbre *> arbres;
+    std::vector<Champignon *> champignons;
 public:
-    CollisionManager(const std::vector<Arbre *> &arbres);
-     bool collisionCheck(Player * p);
+    CollisionManager(const std::vector<Arbre *> &arbres, const std::vector<Champignon *> &champignons);
+    bool collisionCheck(Player * p);
 };
 #endif //TP_BATTLEARENA_COLLISIONMANAGER_H

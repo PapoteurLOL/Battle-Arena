@@ -94,3 +94,7 @@ float Player::getRadius() const {
 float Player::getAngleRotation() const {
     return angleRotation;
 }
+void Player::forceMoveBack() {
+    coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
+    coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
+}
