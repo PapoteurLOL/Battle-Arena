@@ -4,7 +4,8 @@
 
 #include "Egg.h"
 
-Egg::Egg(GLUquadric *params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity) {
+Egg::Egg(GLUquadric *params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity)
+    : direction(0,0,0){
 
     this->eggPosX = eggPosX;
     this->eggPosY = eggPosY;
@@ -33,9 +34,23 @@ void Egg::draw() {
     glPopMatrix();
 }
 
-void Egg::move() {
-    //eggPosX++;
+void Egg::draw(float x, float y, float z) {
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glCallList(eggID);
+    glPopMatrix();
 }
+
+void Egg::move() {
+    eggPosX += eggVelocity * direction.x;
+    //eggPosY += eggVelocity * direction.y;
+    eggPosZ += eggVelocity * direction.z;
+    //eggPosX += eggVelocity;
+
+}
+
+
+
 
 Egg::~Egg() {
     glDeleteLists(eggID, 1);
@@ -52,3 +67,23 @@ float Egg::getEggPosY() const {
 float Egg::getEggPosZ() const {
     return eggPosZ;
 }
+
+void Egg::setDirection(Vector direction) {
+    Egg::direction = direction;
+}
+
+void Egg::setEggPosX(float eggPosX) {
+    Egg::eggPosX = eggPosX;
+}
+
+void Egg::setEggPosY(float eggPosY) {
+    Egg::eggPosY = eggPosY;
+}
+
+void Egg::setEggPosZ(float eggPosZ) {
+    Egg::eggPosZ = eggPosZ;
+}
+
+
+
+

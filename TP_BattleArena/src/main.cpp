@@ -12,13 +12,11 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
-void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+void drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, Egg* egg, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                GLUquadric *params,  GLUquadric *eggParams, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons);
 #include "Egg.h"
-void drawsplitScreen(Player *p1, Player *p2, Enemy* enemy, Egg* egg, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                     GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre*> arbres, std::vector<Champignon*> champignons);
+
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -61,6 +59,7 @@ int main(int argc, char **args) {
     //jouer son
     Mix_PlayChannel(2, son1, -1);
     GLUquadric *params = gluNewQuadric();
+    GLUquadric *eggParams = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
     Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 2, 1, 20);
@@ -111,7 +110,8 @@ int main(int argc, char **args) {
     float enemyPosZ = -800;
     float enemyVelocity = .2;
     Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
-
+    float eggVelocity = 10;
+    Egg* egg = new Egg(eggParams, enemyPosX, enemyPosY, enemyPosZ, eggVelocity);
 
 
     while (isRunning) {
@@ -158,7 +158,7 @@ int main(int argc, char **args) {
 
 
 
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
+        drawsplitScreen(p1, p2, enemy, egg, width, height, c1, c2, state, params, eggParams, idBulletTexture, idDesert, arbres,
                         champignons);
         //mise a jour de l'écran
         glFlush();
@@ -179,9 +179,8 @@ int main(int argc, char **args) {
     SDL_Quit();
     return 0;
 }
-void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+void drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, Egg* egg, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+                GLUquadric *params, GLUquadric *eggParams ,  GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons) {
     glViewport(0, 0, width, height);
     c1->move();
@@ -189,13 +188,13 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
 
 
 //    //dessiner skybox
-    //Utils::drawSkybox(2000,2000,2000,idTextureSkybox);
+    Utils::drawSkybox(2000,2000,2000,idTextureSkybox);
 //
 //    //dessiner platforme
-    //Utils::drawCube(2000, .1, 2000);
+    Utils::drawCube(2000, .1, 2000);
     //dessiner arbres
     for (auto arbre : arbres) {
-        //arbre->draw();
+        arbre->draw();
     }
     //dessiner champignons
     for (auto champ : champignons) {
@@ -206,8 +205,7 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     //p2->draw();
     //dessiner enemy
     enemy->draw();
-    enemy->spawnEgg(params);
     enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-
+    enemy->spawnEgg(eggParams);
 
 }

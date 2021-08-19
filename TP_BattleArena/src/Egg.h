@@ -10,6 +10,7 @@
 #include <GL/glu.h>
 #include <stdlib.h>
 #include <time.h>
+#include "Utilities/Point.h"
 
 class Egg {
 private:
@@ -21,17 +22,26 @@ private:
 
     float eggVelocity;
 
+    Vector direction;
+
 public:
 
     Egg(GLUquadric* params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity);
 
-    void draw();
+    void setEggPosX(float eggPosX);
+    void setEggPosY(float eggPosY);
+    void setEggPosZ(float eggPosZ);
 
+
+    void draw();
+    void draw(float x, float y, float z);
     void move();
 
     float getEggPosX() const;
     float getEggPosY() const;
     float getEggPosZ() const;
+
+    void setDirection(Vector direction);
 
     virtual ~Egg();
 

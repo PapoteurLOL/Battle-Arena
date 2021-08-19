@@ -26,7 +26,6 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
     gluSphere(params, 2, 6, 6);
     glPopMatrix();
 
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 20, 0);
@@ -38,6 +37,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
 //    gluQuadricDrawStyle(params, GLU_FILL);
 //    glPushMatrix();
 //    glTranslatef(0, 20, 0);
+//    glTranslatef(enemyPosX, enemyPosY + 20, enemyPosZ);
 //    glRotatef(0, 1, 0, 0);
 //    glScalef(10,10,10);
 //    glColor3ub(50, 50, 50);
@@ -48,15 +48,16 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
 }
 
 
-void Enemy::draw() const {
-    glPopMatrix();
+void Enemy::draw() {
+    glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
-    //glCallList(enemyID);
+    glCallList(enemyID);
     glPopMatrix();
 
-    for (Egg* egg: eggs) {
+    for (Egg *egg : eggs) {
         egg->draw();
     }
+
 }
 
 void Enemy::trackPlayer(float x, float y, float z) {
@@ -69,17 +70,16 @@ void Enemy::trackPlayer(float x, float y, float z) {
     float sinus = direction.z / direction.magnitude();
     rotationAngle = acos(cosinus) * 180 / M_PI + 90;
 
-    glPushMatrix();
-    glRotatef(rotationAngle, 0, 1, 0);
-    glCallList(enemyID);
+    //glPushMatrix();
+    //glRotatef(rotationAngle, 0, 1, 0);
 
     enemyPosX += velocity * direction.x;
     //enemyPosY += velocity * direction.y;
     enemyPosZ += velocity * direction.z;
 
-    updateEggPosition();
+    //glPopMatrix();
 
-    glPopMatrix();
+    setEggDirection(direction);
 }
 
 Enemy::~Enemy() {
@@ -88,8 +88,9 @@ Enemy::~Enemy() {
 
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
-    if (currentTime - lastUpdate >= 1000) {
-        Egg *egg = new Egg(params, getEnemyPosX(), getEnemyPosY(), getEnemyPosZ(), 15);
+    if (currentTime - lastUpdate >= timeToEggReady) {
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5);
+        //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
         eggs.push_back(egg);
         lastUpdate = currentTime;
     }
@@ -107,12 +108,20 @@ float Enemy::getEnemyPosZ() const {
     return enemyPosZ;
 }
 
-void Enemy::updateEggPosition() {
+void Enemy::setEggDirection(Vector direction) {
     if (!eggs.empty()) {
         for (Egg *e : eggs) {
+            e->setDirection(direction);
             e->move();
+//            if (abs(e->getEggPosX()) > 1000 && abs(e->getEggPosZ()) > 1000) {
+//                e->setEggPosX(enemyPosX);
+//                e->setEggPosY(enemyPosY);
+//                e->setEggPosX(enemyPosZ);
+//            }
         }
     }
+
+    //std::cout<< enemyPosZ << std::endl;
 }
 
 void Enemy::setEggReady(bool eggReady) {
