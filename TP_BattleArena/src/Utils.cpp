@@ -50,52 +50,61 @@ void Utils::drawQuadsHollow(float height, float lenght, float red, float green, 
     glEnd();
     glPopMatrix();
 }
-void Utils::drawCube(float tailleX, float tailleY, float tailleZ) {
+
+void drawCube(float translateX, float translateY, float translateZ, float rotateX, float rotateY, float rotateZ,
+              float scaleX, float scaleY, float scaleZ) {
+
     glPushMatrix();
-    glScalef(tailleX, tailleY, tailleZ);
-    glBegin(GL_QUADS);
+    glTranslatef(translateX, translateY, translateZ);
+    glRotatef(rotateY, 0, 1, 0);
+    //drawAxis(2);
+
+    glScalef(scaleX, scaleY, scaleZ);
+
     //face du bas
-    glColor3f(0.1, 0.1, 0.1);
+    glBegin(GL_QUADS);
+    glColor3f(.1, .1, 0.1);
     glVertex3f(-1, -1, 1);
     glVertex3f(1, -1, 1);
     glVertex3f(1, -1, -1);
     glVertex3f(-1, -1, -1);
 
     //face du gauche
-    glColor3f(0.2, 0.2, 0.2);
+    glColor3f(.1, .1, .1);
     glVertex3f(-1, -1, 1);
     glVertex3f(1, -1, 1);
     glVertex3f(1, 1, 1);
     glVertex3f(-1, 1, 1);
 
     //face du gauche
-    glColor3f(0.3, 0.3, 0.3);
+    glColor3f(1, 0, 0);
     glVertex3f(-1, -1, 1);
     glVertex3f(-1, -1, -1);
     glVertex3f(-1, 1, -1);
     glVertex3f(-1, 1, 1);
 
     //face du droite
-    glColor3f(0.4, 0.4, 0.4);
+    glColor3f(0, 1, 0);
     glVertex3f(-1, -1, -1);
     glVertex3f(1, -1, -1);
     glVertex3f(1, 1, -1);
     glVertex3f(-1, 1, -1);
 
-    //face du droite
-    glColor3f(0.5, 0.5, 0.5);
+    //    //face du droite
+    glColor3f(.15, .15, 0.15);
     glVertex3f(1, -1, 1);
     glVertex3f(1, -1, -1);
     glVertex3f(1, 1, -1);
     glVertex3f(1, 1, 1);
 
-    //face du droite
-    glColor3f(0.6, 0.6, 0.6);
+    //    //face du droite
+    glColor3f(.5, .5, 0.5);
     glVertex3f(-1, 1, 1);
     glVertex3f(1, 1, 1);
     glVertex3f(1, 1, -1);
     glVertex3f(-1, 1, -1);
     glEnd();
+
     glPopMatrix();
 }
 void Utils::drawCube(float tailleX, float tailleY, float tailleZ, float red, float green, float blue) {

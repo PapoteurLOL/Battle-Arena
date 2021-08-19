@@ -23,7 +23,7 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
     gluSphere(params, this->radius, 20, 20);
     glTranslatef(0, this->radius / 2, this->radius / 2);
     glColor3f(75.3 / 255.0, 200.0 / 255.0, 45.6 / 255.0);
-    gluCylinder(params, this->radius / 8, this->radius / 8, this->radius, 20, 20);
+    gluCylinder(params, this->radius / 6, this->radius / 6, this->radius * 1.5, 20, 20);
     glBindTexture(GL_TEXTURE_2D,0);
     glEndList();
 }
@@ -36,6 +36,9 @@ void Player::draw() {
     glCallList(idPlayer);
     glRotatef(this->angleRotation, 0, 1, 0);
     glCallList(idPlayer + 1);
+    glPopMatrix();
+
+    glPushMatrix();
     ability0->draw();
     glPopMatrix();
 
