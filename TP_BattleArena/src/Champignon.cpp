@@ -3,7 +3,7 @@
 //
 
 #include "Champignon.h"
-Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(y), z(z) {
+Champignon::Champignon(float x, float y, float z, GLUquadric *params, float radius) : x(x), y(y), z(z), radius(radius) {
     idTexture = glGenLists(2);
     glNewList(idTexture, GL_COMPILE);
     //glPushMatrix();
@@ -12,13 +12,13 @@ Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(
     gluQuadricDrawStyle(params, GLU_FILL);
     glTranslatef(0, .01, 0);
     glRotatef(-90, 1, 0, 0);
-    gluCylinder(params, 5, 2.5, 50, 20, 1);
+    gluCylinder(params, this->radius, this->radius / 2, 25, 20, 1);
 
     //tete champignon
-    glTranslatef(0, 0, 50);
+    glTranslatef(0, 0, 25);
     glColor3f(1, 1, 0);
     glScalef(1, 1, .20);
-    gluSphere(params, 10, 20, 20);
+    gluSphere(params, this->radius * 2, 20, 20);
     //glPopMatrix();
     glEndList();
 }
@@ -33,4 +33,16 @@ void Champignon::move() {
 }
 Champignon::~Champignon() {
     glDeleteLists(idTexture, 2);
+}
+float Champignon::getX() const {
+    return x;
+}
+float Champignon::getY() const {
+    return y;
+}
+float Champignon::getZ() const {
+    return z;
+}
+float Champignon::getRadius() const {
+    return radius;
 }

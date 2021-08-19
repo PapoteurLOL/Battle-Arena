@@ -7,7 +7,7 @@ Camera::Camera(Player *p) : p(p) {
 }
 void Camera::move() {
     float deltaPosX = sin(p->getAngleRotation() * M_PI / 180) * p->getRadius();
-    float posY = this->p->getTaille() + this->p->getRadius();
+    float posY = this->p->getTaille() * 2 + this->p->getRadius();
     float deltaPosZ =  cos(p->getAngleRotation() * M_PI / 180) * p->getRadius();
     gluLookAt(this->p->getX() + deltaPosX, this->p->getY() + posY,
               this->p->getZ() + deltaPosZ, this->p->getX() + deltaPosX * 1000,
