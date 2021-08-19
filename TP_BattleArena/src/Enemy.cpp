@@ -6,7 +6,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
+Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
     //x:0,y:20, z:-800
 
     this->enemyPosX = x;
@@ -22,73 +22,114 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity){
     glPushMatrix();
     glTranslatef(0, 0, 0);
     glRotatef(90, 1, 0, 0);
-    glScalef(10,10,10);
+    glScalef(10, 10, 10);
     gluSphere(params, 2, 6, 6);
     glPopMatrix();
-
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
-    glScalef(10,10,10);
+    glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
 
-    gluQuadricDrawStyle(params, GLU_FILL);
-    glPushMatrix();
-    glTranslatef(0, 20, 0);
-    glRotatef(0, 1, 0, 0);
-    glScalef(10,10,10);
-    glColor3ub(50, 50, 50);
-    gluCylinder(params, 1, .01, 5, 10, 10);
-    glPopMatrix();
+//    gluQuadricDrawStyle(params, GLU_FILL);
+//    glPushMatrix();
+//    glTranslatef(0, 20, 0);
+//    glTranslatef(enemyPosX, enemyPosY + 20, enemyPosZ);
+//    glRotatef(0, 1, 0, 0);
+//    glScalef(10,10,10);
+//    glColor3ub(50, 50, 50);
+//    gluCylinder(params, 1, .01, 5, 10, 10);
+//    glPopMatrix();
 
     glEndList();
 }
 
 
-void Enemy::draw() const {
-    glPopMatrix();
+void Enemy::draw() {
+    glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
-    //glCallList(enemyID);
+    glCallList(enemyID);
     glPopMatrix();
+
+    for (Egg *egg : eggs) {
+        egg->draw();
+    }
+
 }
 
 void Enemy::trackPlayer(float x, float y, float z) {
 
     Vector *playerCoordinates = new Vector(x, y, z);
-    //(b-a).normalize
     Vector direction = playerCoordinates->operator-(Vector(enemyPosX, enemyPosY, enemyPosZ));
     direction.normalize();
 
-
     float cosinus = direction.x / direction.magnitude();
     float sinus = direction.z / direction.magnitude();
+    rotationAngle = acos(cosinus) * 180 / M_PI + 90;
 
-    if (z > 0)
-        rotationAngle = -acos(cosinus) * 180 / M_PI;
-    if (z <= 0)
-        rotationAngle =   acos(cosinus) * 180 / M_PI + 90;
-
-
-    glPushMatrix();
-    glRotatef(rotationAngle, 0, 1, 0);
-    glCallList(enemyID);
+    //glPushMatrix();
+    //glRotatef(rotationAngle, 0, 1, 0);
 
     enemyPosX += velocity * direction.x;
     //enemyPosY += velocity * direction.y;
     enemyPosZ += velocity * direction.z;
 
+    //glPopMatrix();
 
-    //std::cout << enemyPosX << ", " << enemyPosZ << std::endl;
-
-
-    glPopMatrix();
+    setEggDirection(direction);
 }
 
 Enemy::~Enemy() {
     glDeleteLists(enemyID, 1);
+}
+
+void Enemy::spawnEgg(GLUquadric *params) {
+    currentTime = SDL_GetTicks();
+    if (currentTime - lastUpdate >= timeToEggReady) {
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5);
+        //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
+        eggs.push_back(egg);
+        lastUpdate = currentTime;
+    }
+}
+
+float Enemy::getEnemyPosX() const {
+    return enemyPosX;
+}
+
+float Enemy::getEnemyPosY() const {
+    return enemyPosY;
+}
+
+float Enemy::getEnemyPosZ() const {
+    return enemyPosZ;
+}
+
+void Enemy::setEggDirection(Vector direction) {
+    if (!eggs.empty()) {
+        for (Egg *e : eggs) {
+            e->setDirection(direction);
+            e->move();
+//            if (abs(e->getEggPosX()) > 1000 && abs(e->getEggPosZ()) > 1000) {
+//                e->setEggPosX(enemyPosX);
+//                e->setEggPosY(enemyPosY);
+//                e->setEggPosX(enemyPosZ);
+//            }
+        }
+    }
+
+    //std::cout<< enemyPosZ << std::endl;
+}
+
+void Enemy::setEggReady(bool eggReady) {
+    Enemy::eggReady = eggReady;
+}
+
+bool Enemy::isEggReady() const {
+    return eggReady;
 }
 
 

@@ -215,7 +215,8 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     p2->draw();
     //dessiner enemy
     enemy->draw();
-//    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+    enemy->spawnEgg(params);
 
     //        for (Enemy *e : enemies) {
     //            e->draw();

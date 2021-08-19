@@ -184,7 +184,7 @@ SDL_Surface *Utils::flipSurface(SDL_Surface *surface) {
     for (current_line = 0; current_line < surface->h; current_line++) {
         memcpy(&((unsigned char *) fliped_surface->pixels)[current_line * pitch],
                &((unsigned char *) surface->pixels)[(surface->h - 1 -
-                                                     current_line) * pitch],
+               current_line) * pitch],
                pitch);
     }
     SDL_UnlockSurface(fliped_surface);
