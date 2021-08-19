@@ -4,22 +4,21 @@
 
 #include "Egg.h"
 
-Egg::Egg(GLUquadric *params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity)
-    : direction(0,0,0){
+Egg::Egg(GLUquadric *params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity, float playerPosX, float playerPosY, float playerPosZ)
+    : direction(playerPosX,playerPosY,playerPosZ){
 
     this->eggPosX = eggPosX;
     this->eggPosY = eggPosY;
     this->eggPosZ = eggPosZ;
     this->eggVelocity = eggVelocity;
 
+    direction.normalize();
 
     eggID = glGenLists(1);
     glNewList(eggID, GL_COMPILE);
     glColor3ub(0, 255, 0);
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(eggPosX, eggPosY, eggPosZ);
     glRotatef(90, 1, 0, 0);
     gluSphere(params, 25, 20, 20);
     glPopMatrix();

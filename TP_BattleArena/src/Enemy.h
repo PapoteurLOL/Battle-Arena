@@ -35,6 +35,8 @@ private:
     Uint32 lastUpdate = 0;
     int timeToEggReady = 1000; //ms
 
+    Vector direction;
+
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw();

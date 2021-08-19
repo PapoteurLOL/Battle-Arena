@@ -26,7 +26,7 @@ private:
 
 public:
 
-    Egg(GLUquadric* params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity);
+    Egg(GLUquadric* params, float eggPosX, float eggPosY, float eggPosZ, float eggVelocity, float playerPosX, float playerPosY, float playerPosZ);
 
     void setEggPosX(float eggPosX);
     void setEggPosY(float eggPosY);

@@ -6,7 +6,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) {
+Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : direction(x,y,z){
     //x:0,y:20, z:-800
 
     this->enemyPosX = x;
@@ -63,7 +63,7 @@ void Enemy::draw() {
 void Enemy::trackPlayer(float x, float y, float z) {
 
     Vector *playerCoordinates = new Vector(x, y, z);
-    Vector direction = playerCoordinates->operator-(Vector(enemyPosX, enemyPosY, enemyPosZ));
+    direction = playerCoordinates->operator-(Vector(enemyPosX, enemyPosY, enemyPosZ));
     direction.normalize();
 
     float cosinus = direction.x / direction.magnitude();
@@ -89,7 +89,7 @@ Enemy::~Enemy() {
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
     if (currentTime - lastUpdate >= timeToEggReady) {
-        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5);
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5, direction.x, direction.y, direction.z);
         //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
         eggs.push_back(egg);
         lastUpdate = currentTime;
