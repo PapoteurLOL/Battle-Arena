@@ -6,16 +6,17 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL2/SDL_mixer.h>
-#include "Arbre.h"
-#include "Champignon.h"
+#include "SkyboxItems/Arbre.h"
+#include "SkyboxItems/Champignon.h"
 #include "Utils.h"
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons);
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+                std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons, Uint32 startPosition);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -42,6 +43,7 @@ int main(int argc, char **args) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
+    GLuint idTextureSol = Utils::loadTexture("./assets/sol.jpg");
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
     glLoadIdentity();
@@ -54,6 +56,7 @@ int main(int argc, char **args) {
     float x = 10, y = 10, z = 10;
     float x2 = 15, y2 = 10, z2 = 15;
     const Uint8 *state = nullptr;
+    Uint32 startPosition;
 
     //jouer son
     Mix_PlayChannel(2, son1, -1);
@@ -98,7 +101,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionChampignons = sign * rand() % 250;
-        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params));
+        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params,200));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
@@ -129,6 +132,7 @@ int main(int argc, char **args) {
         //gestion évènement
         SDL_PollEvent(&event);
         state = SDL_GetKeyboardState(NULL);
+        startPosition = SDL_GetTicks();
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
@@ -160,8 +164,9 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_S]) {
             z2 += .1;
         }
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
-                        champignons);
+        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, idTextureSol,
+                        arbres,
+                        champignons, startPosition);
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
@@ -174,6 +179,7 @@ int main(int argc, char **args) {
     Mix_FreeChunk(son1);
     gluDeleteQuadric(params);
     glDeleteTextures(1, &idDesert);
+    glDeleteTextures(1, &idTextureSol);
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(win);
     IMG_Quit();
@@ -183,21 +189,23 @@ int main(int argc, char **args) {
 }
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons) {
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+                std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons, Uint32 startPosition) {
     glViewport(0, 0, width, height);
     c1->move();
     p1->move(state, params, idTextureBullet);
     //dessiner skybox
     Utils::drawSkybox(2000, 2000, 2000, idTextureSkybox);
     //dessiner platforme
-    Utils::drawCube(2000, .1, 2000);
+    //Utils::drawCube(2000, .1, 2000);
+    Utils::drawCube(2000, .1, 2000, idTextureSol);
     //dessiner arbres
     for (auto arbre : arbres) {
         arbre->draw();
     }
     for (auto champ : champignons) {
-        champ->move();
+        champ->move(startPosition);
     }
     //dessiner champignons
     for (auto champ : champignons) {

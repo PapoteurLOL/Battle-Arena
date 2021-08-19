@@ -3,7 +3,8 @@
 //
 
 #include "Champignon.h"
-Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(y), z(z) {
+Champignon::Champignon(float x, float y, float z, GLUquadric *params, float deltaTime) : x(x), y(y), z(z),
+                                                                                         deltaTime(deltaTime) {
     idTexture = glGenLists(2);
     glNewList(idTexture, GL_COMPILE);
     //glPushMatrix();
@@ -15,7 +16,7 @@ Champignon::Champignon(float x, float y, float z, GLUquadric *params) : x(x), y(
     gluCylinder(params, 5, 2.5, 50, 20, 1);
     //glPopMatrix();
 
-   // glPushMatrix();
+    // glPushMatrix();
     //tete champignon
     glTranslatef(0, 0, 50);
     glColor3f(1, 1, 0);
@@ -31,10 +32,13 @@ void Champignon::draw() {
     glCallList(idTexture);
     glPopMatrix();
 }
-void Champignon::move() {
-    angleRotate += xVelocity;
-    if (angleRotate < 50 || angleRotate > 50){
-        xVelocity *= -1;
+void Champignon::move(Uint32 startPosition) {
+    if (startPosition - endPosition > deltaTime) {
+        angleRotate += xVelocity;
+        if (angleRotate < 50 || angleRotate > 50) {
+            xVelocity *= -1;
+        }
+        endPosition = startPosition;
     }
 }
 Champignon::~Champignon() {
