@@ -73,7 +73,7 @@ void Player::move(const Uint8 *state, GLUquadric *params, GLuint idTexture) {
     if (coord.x < edgeWorld * -1)
         coord.x = edgeWorld * -1;
     if (coord.z < edgeWorld * -1)
-        coord.z = edgeWorld * -1;
+        coord.z = edgeWorld * -1 ;
     ability0->move();
 }
 float Player::getX() const {

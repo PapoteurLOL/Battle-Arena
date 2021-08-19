@@ -5,6 +5,7 @@
 #ifndef TP_BATTLEARENA_PLAYER_H
 #define TP_BATTLEARENA_PLAYER_H
 #include "Ability.h"
+
 class Player {
 protected:
     Coord coord;

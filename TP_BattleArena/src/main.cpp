@@ -12,10 +12,11 @@
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
+#include "CollisionManager.h"
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons, int tailleMonde);
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -61,14 +62,14 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 1, 20, tailleMonde);
+    Player *p1 = new Player(params, idTankTexture, 18, 16, {0, 1, 0}, 0, 0.5, 0.5, 20, tailleMonde);
     Camera *c1 = new Camera(p1);
     Player *p2 = new Player(params, idTankTexture, 18, 16, {5, 1, 0}, 0, 1, 0.5, 20, tailleMonde);
     Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
-    int nbArbres = 1000;
-    int nbChampignons = 500;
+    int nbArbres = 500;
+    int nbChampignons = 200;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
         if (rand() % 2 == 0) {
@@ -83,7 +84,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionArbres = sign * rand() % 250;
-        arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params));
+        arbres.push_back(new Arbre(xPositionArbres * 5, .01, zPositionArbres * 5, params, 5));
     }
     for (int nb = 0; nb < nbChampignons; ++nb) {
         int sign = 1;
@@ -119,7 +120,7 @@ int main(int argc, char **args) {
 //        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
 //    }
 
-
+    CollisionManager *collisionManager = new CollisionManager(arbres);
     while (isRunning) {
         glLoadIdentity();
         //Nettoyer la fenêtre
@@ -162,7 +163,7 @@ int main(int argc, char **args) {
             z2 += .1;
         }
         drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
-                        champignons, tailleMonde);
+                        champignons, tailleMonde, collisionManager);
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
@@ -185,10 +186,12 @@ int main(int argc, char **args) {
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons , int tailleMonde) {
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
     glViewport(0, 0, width, height);
     c1->move();
-    p1->move(state, params, idTextureBullet);
+    if (collmanag->collisionCheck(p1)){
+        p1->move(state, params, idTextureBullet);
+    }
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
