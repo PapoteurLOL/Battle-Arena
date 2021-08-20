@@ -17,6 +17,7 @@
 #include "Egg.h"
 #include "Player.h"
 
+
 class Enemy {
 
 private:
@@ -31,7 +32,7 @@ private:
     float rotationAngle = 0;
 
     std::vector <Egg*> eggs;
-    float eggVelocity = 5;
+    float eggVelocity = 3;
 
     Uint32 currentTime = 0;
     Uint32 lastUpdate = 0;
@@ -42,7 +43,7 @@ private:
 
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
-    void draw(std::vector<Projectile*>& p);
+    void draw(std::vector<Projectile*>& p,std::vector<Arbre*>& a);
     void trackPlayer(float x, float y, float z);
 
     void spawnEgg(GLUquadric *params);

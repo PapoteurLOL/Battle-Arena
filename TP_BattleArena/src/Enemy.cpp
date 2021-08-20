@@ -63,7 +63,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 }
 
 
-void Enemy::draw(std::vector<Projectile*>& p) {
+void Enemy::draw(std::vector<Projectile*>& p, std::vector<Arbre*>& a) {
     glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
     glCallList(enemyID);
@@ -83,8 +83,14 @@ void Enemy::draw(std::vector<Projectile*>& p) {
     glPopMatrix();
 
     for (Egg *egg : eggs) {
-        egg->draw();
+        if(egg) {
+            egg->draw();
+        }
+        if (egg->collideWith(a)) {
+            glDeleteLists(egg->getEggId(),1);
+        }
     }
+
 
 }
 
@@ -107,7 +113,7 @@ void Enemy::trackPlayer(float x, float y, float z) {
         enemyPosZ += velocity * direction.z;
         setEggDirection(direction);
     } else {
-        //delete enemy
+        glDeleteLists(enemyID,1);
     }
 
 }
@@ -164,6 +170,7 @@ bool Enemy::isHitBy(std::vector<Projectile*>& p) {
     }
     return false;
 }
+
 
 
 

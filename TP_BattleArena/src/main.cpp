@@ -220,7 +220,7 @@ drawsplitScreen(Player *p1, Player *p2, std::vector<Enemy *> enemies, int width,
     p2->draw();
     //dessiner enemy
     for (Enemy *e : enemies) {
-        e->draw(const_cast<std::vector<Projectile *> &>(p1->getAbility0()->getBullets()));
+        e->draw(const_cast<std::vector<Projectile *> &>(p1->getAbility0()->getBullets()),arbres);
         e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
         e->spawnEgg(params);
     }
