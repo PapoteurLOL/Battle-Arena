@@ -5,7 +5,9 @@
 #ifndef TP_BATTLEARENA_PLAYER_H
 #define TP_BATTLEARENA_PLAYER_H
 #include "Ability.h"
-
+struct Controls {
+    int UP,DOWN,LEFT,RIGHT, SHOOT;
+};
 
 class Player {
 protected:
@@ -25,11 +27,12 @@ protected:
     float timerDeathAnim;
     float timeOfDeath;
     bool active;
+    Controls control;
 public:
     bool isActive() const;
 public:
     Player(GLUquadric *params, GLuint idTexture, float taille, float radius, Coord coord, float angleRotation,
-           float velocity, float velocityRotation, float hp, int widthWorld);
+           float velocity, float velocityRotation, float hp, int widthWorld, int up, int down, int left, int right, int shoot);
     void draw();
     float getTaille() const;
     float getRadius() const;

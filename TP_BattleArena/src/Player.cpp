@@ -4,7 +4,7 @@
 
 #include "Player.h"
 Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius, Coord coord,
-               float angleRotation, float velocity, float velocityRotation, float hp, int widthWorld) : coord(coord),
+               float angleRotation, float velocity, float velocityRotation, float hp, int widthWorld, int up, int down, int left, int right, int shoot) : coord(coord),
                                                                                                         angleRotation(
                                                                                                                 angleRotation),
                                                                                                         velocityRotation(
@@ -14,6 +14,7 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
                                                                                                         hp(hp),
                                                                                                         taille(taille),
                                                                                                         radius(radius) {
+    control = {up, down, left, right, shoot};
     ability0 = new Ability(120, 0.5);
     idPlayer = glGenLists(2);
     gluQuadricDrawStyle(params, GLU_FILL);
@@ -77,21 +78,21 @@ void Player::draw() {
 }
 void Player::move(const Uint8 *state, GLUquadric *params, GLuint idTexture) {
     if (!dead){
-        if (state[SDL_SCANCODE_A]) {
+        if (state[control.LEFT]) {
             angleRotation += velocityRotation;
         }
-        if (state[SDL_SCANCODE_D]) {
+        if (state[control.RIGHT]) {
             angleRotation -= velocityRotation;
         }
-        if (state[SDL_SCANCODE_W]) {
+        if (state[control.UP]) {
             coord.x += sin(angleRotation * M_PI / 180) * velocity;
             coord.z += cos(angleRotation * M_PI / 180) * velocity;
         }
-        if (state[SDL_SCANCODE_S]) {
+        if (state[control.DOWN]) {
             coord.x -= sin(angleRotation * M_PI / 180) * velocity / 2;
             coord.z -= cos(angleRotation * M_PI / 180) * velocity / 2;
         }
-        if (state[SDL_SCANCODE_SPACE] && ability0->getAmmoLeft() > 0) {
+        if (state[control.SHOOT] && ability0->getAmmoLeft() > 0) {
             ability0->use(params, idTexture, (radius / 4) - 1, {coord.x, coord.y + taille + radius / 2, coord.z}, 1,
                           angleRotation);
         }

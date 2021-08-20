@@ -87,9 +87,12 @@ void GameFlow::createObject() {
     //param pour quad
     params = gluNewQuadric();
     //creation player et cam
-    p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 100, worldSize);
+    p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 100, worldSize, SDL_SCANCODE_W,
+                    SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D, SDL_SCANCODE_SPACE);
     c1 = new Camera(p1);
-    p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 0.5, 0.5, 100, worldSize);
+    p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 0.5, 0.5, 100, worldSize, SDL_SCANCODE_UP,
+                    SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT, SDL_SCANCODE_P);
+    c1 = new Camera(p1);
     c2 = new Camera(p2);
     //creation arbre et champignons
     nbArbres = 250;
@@ -176,11 +179,11 @@ void GameFlow::drawsplitScreen() {
     }
     collisionManager->collisionBulletCheck(p1, p2);
     //p2
-    //    if (!collmanag->collisionCheck(p2)) {
-    //        p2->move(state, params, idTextureBullet);
-    //    } else {
-    //        p2->forceMoveBack();
-    //    }
+    if (!collisionManager->collisionCheck(p2)) {
+        p2->move(state, params, idBulletTexture);
+    } else {
+        p2->forceMoveBack();
+    }
     collisionManager->collisionBulletCheck(p2, p1);
     //dessiner skybox
     Utils::drawSkybox(worldSize, worldSize, worldSize, idDesert);
