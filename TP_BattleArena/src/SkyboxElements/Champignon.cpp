@@ -33,8 +33,12 @@ void Champignon::draw() {
     glPopMatrix();
 }
 void Champignon::move(Uint32 startRotation) {
+    x += velocity;
     if (startRotation - endPosition > deltaTime) {
         angleRotate += .1;
+        if (x < 50 || x > 50) {
+            velocity *= -1;
+        }
     }
 }
 Champignon::~Champignon() {
