@@ -87,16 +87,16 @@ void GameFlow::createObject() {
     //param pour quad
     params = gluNewQuadric();
     //creation player et cam
-    p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 100, worldSize, SDL_SCANCODE_W,
+    p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.3, 100, worldSize, SDL_SCANCODE_W,
                     SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D, SDL_SCANCODE_SPACE);
     c1 = new Camera(p1);
-    p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 0.5, 0.5, 100, worldSize, SDL_SCANCODE_UP,
+    p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 0.5, 0.3, 100, worldSize, SDL_SCANCODE_UP,
                     SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT, SDL_SCANCODE_P);
     c1 = new Camera(p1);
     c2 = new Camera(p2);
     //creation arbre et champignons
-    nbArbres = 250;
-    nbChampignons = 100;
+    nbArbres = 150;
+    nbChampignons = 75;
     for (int nb = 0; nb < nbArbres; ++nb) {
         int sign = 1;
         if (rand() % 2 == 0) {
@@ -131,7 +131,7 @@ void GameFlow::createObject() {
     }
     //creation enemies
     for (int i = 0; i < 5; i++) {
-        enemies.push_back(new Enemy(params, rand() % 3000 - 1000, 4, rand() % 3000 - 1000, .2));
+        enemies.push_back(new Enemy(params, rand() % 3000 - 1000, 4, rand() % 3000 - 1000, .1));
     }
     //creation du manager de collision
     collisionManager = new CollisionManager(arbres, champignons);

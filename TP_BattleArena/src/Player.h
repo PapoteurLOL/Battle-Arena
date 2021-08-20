@@ -17,6 +17,7 @@ protected:
     float velocity;
     float hp;
     GLuint idPlayer;
+    GLuint hpID;
     float taille;
     float radius;
     Ability *ability0;

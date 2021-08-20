@@ -40,6 +40,17 @@ Player::Player(GLUquadric *params, GLuint idTexture, float taille, float radius,
     sonHit = Mix_LoadWAV("./assets/hit.mp3");
     sonDead = Mix_LoadWAV("./assets/explosion.mp3");
     active = true;
+    hpID = glGenLists(1);
+    glNewList(hpID, GL_COMPILE);
+    glColor3ub(51, 153, 0);
+    gluQuadricDrawStyle(params, GLU_FILL);
+    glPushMatrix();
+    glTranslatef(0, 60, 0);
+    //glRotatef(0, 1, 0, 0);
+    glScalef(10, 10, 10);
+    gluCylinder(params, 1, 1, 11, 10, 10);
+    glPopMatrix();
+    glEndList();
 }
 Player::~Player() {
     glDeleteLists(idPlayer, 1);
@@ -51,9 +62,18 @@ void Player::draw() {
         glCallList(idPlayer);
         glRotatef(this->angleRotation, 0, 1, 0);
         glCallList(idPlayer + 1);
+        glTranslatef(0, 25, 0);
+        if (hp > 0) {
+            glScalef(1, 1, hp / 100);
+        } else {
+            glScalef(0, 0, 0);
+        }
+        glCallList(hpID);
+
         glPopMatrix();
         glPushMatrix();
         ability0->draw();
+
         glPopMatrix();
     } else {
         if(SDL_GetTicks() - timeOfDeath < timerDeathAnim * 1000){
