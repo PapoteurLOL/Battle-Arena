@@ -21,6 +21,7 @@ private:
     float eggPosZ;
 
     float eggVelocity;
+    float eggRadius = 10;
 
     Vector direction;
 

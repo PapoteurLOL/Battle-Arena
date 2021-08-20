@@ -28,12 +28,11 @@ private:
     float rotationAngle = 0;
 
     std::vector <Egg*> eggs;
-    Egg* anEgg;
-    bool eggReady = false;
+    float eggVelocity = 5;
 
     Uint32 currentTime = 0;
     Uint32 lastUpdate = 0;
-    int timeToEggReady = 1000; //ms
+    int timeToSpawnEgg = 500; //ms
 
     Vector direction;
 
@@ -45,8 +44,6 @@ public:
     void spawnEgg(GLUquadric *params);
     void setEggDirection(Vector direction);
 
-    void setEggReady(bool eggReady);
-    bool isEggReady() const;
 
     float getEnemyPosX() const;
     float getEnemyPosY() const;

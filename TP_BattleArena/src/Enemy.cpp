@@ -20,7 +20,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 0, 0);
+    glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
     glScalef(10, 10, 10);
     gluSphere(params, 2, 6, 6);
@@ -28,21 +28,20 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 20, 0);
+    glTranslatef(0, 50, 0);
     glRotatef(90, 1, 0, 0);
     glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
 
-//    gluQuadricDrawStyle(params, GLU_FILL);
-//    glPushMatrix();
-//    glTranslatef(0, 20, 0);
-//    glTranslatef(enemyPosX, enemyPosY + 20, enemyPosZ);
-//    glRotatef(0, 1, 0, 0);
-//    glScalef(10,10,10);
-//    glColor3ub(50, 50, 50);
-//    gluCylinder(params, 1, .01, 5, 10, 10);
-//    glPopMatrix();
+    gluQuadricDrawStyle(params, GLU_FILL);
+    glPushMatrix();
+    glTranslatef(0, 50, 0);
+    glRotatef(-90, 1, 0, 0);
+    glScalef(10,10,10);
+    glColor3ub(50, 50, 50);
+    gluCylinder(params, 1, .01, 4, 10, 10);
+    glPopMatrix();
 
     glEndList();
 }
@@ -88,9 +87,8 @@ Enemy::~Enemy() {
 
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
-    if (currentTime - lastUpdate >= timeToEggReady) {
-        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5, direction.x, direction.y, direction.z);
-        //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
+    if (currentTime - lastUpdate >= rand() % timeToSpawnEgg + 4000) {
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY + 10 , enemyPosZ, eggVelocity , direction.x, direction.y, direction.z);
         eggs.push_back(egg);
         lastUpdate = currentTime;
     }
@@ -124,13 +122,6 @@ void Enemy::setEggDirection(Vector direction) {
     //std::cout<< enemyPosZ << std::endl;
 }
 
-void Enemy::setEggReady(bool eggReady) {
-    Enemy::eggReady = eggReady;
-}
-
-bool Enemy::isEggReady() const {
-    return eggReady;
-}
 
 
 
