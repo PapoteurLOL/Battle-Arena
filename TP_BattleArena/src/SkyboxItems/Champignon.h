@@ -9,7 +9,7 @@
 #include <GL/glu.h>
 class Champignon {
 private:
-    float x, y, z, angleRotate = 0, xVelocity = 1;
+    float x, y, z, angleRotate = 0, xVelocity = .5;
     float deltaTime;
     Uint32 endPosition;
     GLuint idTexture;

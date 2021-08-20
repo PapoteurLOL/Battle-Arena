@@ -28,15 +28,22 @@ Champignon::Champignon(float x, float y, float z, GLUquadric *params, float delt
 void Champignon::draw() {
     glPushMatrix();
     glTranslatef(x, y, z);
-    glRotatef(angleRotate, 0, 0, 1);
+    glRotatef(angleRotate, 0, angleRotate, 1);
     glCallList(idTexture);
     glPopMatrix();
 }
 void Champignon::move(Uint32 startPosition) {
+    y -= xVelocity;
+    angleRotate += .01;
     if (startPosition - endPosition > deltaTime) {
-        angleRotate += xVelocity;
-        if (angleRotate < 50 || angleRotate > 50) {
+
+//        if (angleRotate < 50 || angleRotate > 50) {
+//            xVelocity *= -1;
+//        }
+        if ( y < 0 || y >0 ) {
             xVelocity *= -1;
+//            x += sin(angleRotate * M_PI / 180) * xVelocity;
+//            z += cos(angleRotate * M_PI / 180) * xVelocity;
         }
         endPosition = startPosition;
     }

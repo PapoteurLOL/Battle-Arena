@@ -42,7 +42,7 @@ int main(int argc, char **args) {
     //appelle la matrice de projection
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
-    GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
+    GLuint idDesert = Utils::loadTexture("./assets/cloud.png");
     GLuint idTextureSol = Utils::loadTexture("./assets/sol.jpg");
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
@@ -59,7 +59,7 @@ int main(int argc, char **args) {
     Uint32 startPosition;
 
     //jouer son
-    Mix_PlayChannel(2, son1, -1);
+    //Mix_PlayChannel(2, son1, -1);
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
@@ -101,7 +101,7 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionChampignons = sign * rand() % 250;
-        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params,200));
+        champignons.push_back(new Champignon(xPositionChampignons * 5, .1, zPositionChampignons * 5, params,1000));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
@@ -199,7 +199,11 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     Utils::drawSkybox(2000, 2000, 2000, idTextureSkybox);
     //dessiner platforme
     //Utils::drawCube(2000, .1, 2000);
+    glPushMatrix();
+    glTranslatef(0,-20,0);
     Utils::drawCube(2000, .1, 2000, idTextureSol);
+    Utils::drawAxis(200);
+    glPopMatrix();
     //dessiner arbres
     for (auto arbre : arbres) {
         arbre->draw();
