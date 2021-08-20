@@ -63,9 +63,9 @@ int main(int argc, char **args) {
     GLUquadric *params = gluNewQuadric();
     GLuint idTankTexture = Utils::loadTexture("./assets/tanktexture.jpg");
     GLuint idBulletTexture = Utils::loadTexture("./assets/bullettexture.jpg");
-    Player *p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 2, 0.5, 20, tailleMonde);
+    Player *p1 = new Player(params, idTankTexture, 10, 10, {0, 1, 0}, 0, 0.5, 0.5, 100, tailleMonde);
     Camera *c1 = new Camera(p1);
-    Player *p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 1, 0.5, 20, tailleMonde);
+    Player *p2 = new Player(params, idTankTexture, 10, 10, {5, 1, 0}, 0, 0.5, 0.5, 100, tailleMonde);
     Camera *c2 = new Camera(p2);
     std::vector<Arbre *> arbres;
     std::vector<Champignon *> champignons;
@@ -123,7 +123,6 @@ int main(int argc, char **args) {
 
     CollisionManager *collisionManager = new CollisionManager(arbres, champignons);
     while (isRunning) {
-        glLoadIdentity();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
                      1.f); //permet d'expliquer avec quelle couleur on va remplir la memoire des couleurs
@@ -163,15 +162,35 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_S]) {
             z2 += .1;
         }
+        //UI PLAYER 1
+        glViewport(0, height - height / 8, width, height / 8);
+        glLoadIdentity();
+        //GAMESCREEN PLAYER 1
+        glViewport(0, height / 2, width, height * 3 / 8);
+        glLoadIdentity();
+        if (!p1->isDead())
+            c1->move();
         drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
                         champignons, tailleMonde, collisionManager);
+//        //UI PLAYER 2
+        glViewport(0, height * 3 / 8, width, height / 8);
+        glLoadIdentity();
+        //GAMESCREEN PLAYER 2
+        glViewport(0, 0, width, height * 3 / 8);
+        glLoadIdentity();
+        if (!p2->isDead())
+            c2->move();
+        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
+                        champignons, tailleMonde, collisionManager);
+
+        //check game end
         if (!p1->isActive() || !p2->isActive())
             isRunning = false;
         //mise a jour de l'écran
         glFlush();
         SDL_GL_SwapWindow(win);
         //pause dans l'image
-        SDL_Delay(1);
+        SDL_Delay(5);
     }
     delete p1;
     gluDeleteQuadric(params);
@@ -190,14 +209,20 @@ void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
-    glViewport(0, 0, width, height);
-    c1->move();
+
     if (!collmanag->collisionCheck(p1)) {
         p1->move(state, params, idTextureBullet);
     } else {
         p1->forceMoveBack();
     }
     collmanag->collisionBulletCheck(p1, p2);
+
+//    if (!collmanag->collisionCheck(p2)) {
+//        p2->move(state, params, idTextureBullet);
+//    } else {
+//        p2->forceMoveBack();
+//    }
+//    collmanag->collisionBulletCheck(p2, p1);
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
@@ -217,21 +242,4 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     enemy->draw();
     enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
     enemy->spawnEgg(params);
-
-    //        for (Enemy *e : enemies) {
-    //            e->draw();
-    //        }
-    //
-    //        for (Enemy *e : enemies) {
-    //            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-    //        }
-
-//    glViewport(0, height / 2, width, height);
-//    glLoadIdentity();
-//    c2->move();
-//    Utils::drawCube(2000, .1, 2000);
-//    p2->draw();
-//    p1->draw();
-//    enemy->draw();
-//    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 }

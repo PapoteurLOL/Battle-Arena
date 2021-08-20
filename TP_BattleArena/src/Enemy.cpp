@@ -89,7 +89,7 @@ Enemy::~Enemy() {
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
     if (currentTime - lastUpdate >= timeToEggReady) {
-        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5, direction.x, direction.y, direction.z);
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 1, direction.x, direction.y, direction.z);
         //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
         eggs.push_back(egg);
         lastUpdate = currentTime;

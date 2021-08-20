@@ -33,7 +33,7 @@ private:
 
     Uint32 currentTime = 0;
     Uint32 lastUpdate = 0;
-    int timeToEggReady = 1000; //ms
+    int timeToEggReady = 5000; //ms
 
     Vector direction;
 

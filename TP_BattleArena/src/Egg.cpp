@@ -20,9 +20,8 @@ Egg::Egg(GLUquadric *params, float eggPosX, float eggPosY, float eggPosZ, float 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glRotatef(90, 1, 0, 0);
-    gluSphere(params, 25, 20, 20);
+    gluSphere(params, 10, 20, 20);
     glPopMatrix();
-
     glEndList();
 }
 
