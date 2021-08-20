@@ -15,7 +15,8 @@
 #include "CollisionManager.h"
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+                std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag);
 int main(int argc, char **args) {
     srand(time(NULL));
@@ -45,6 +46,7 @@ int main(int argc, char **args) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
+    GLuint idSolSkybox = Utils::loadTexture("./assets/sol.jpg");
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
     glLoadIdentity();
@@ -163,7 +165,8 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_S]) {
             z2 += .1;
         }
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
+        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, idSolSkybox,
+                        arbres,
                         champignons, tailleMonde, collisionManager);
         if (!p1->isActive() || !p2->isActive())
             isRunning = false;
@@ -188,7 +191,8 @@ int main(int argc, char **args) {
 }
 void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+                std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
     glViewport(0, 0, width, height);
     c1->move();
@@ -201,7 +205,7 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
-    Utils::drawCube(tailleMonde, .1, tailleMonde);
+    Utils::drawCube(tailleMonde, .1, tailleMonde, idTextureSol);
     //dessiner arbres
     for (auto arbre : arbres) {
         arbre->draw();
