@@ -10,7 +10,9 @@
 #include <GL/glu.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 #include "Utilities/Point.h"
+#include "SkyboxElements/Arbre.h"
 
 class Egg {
 private:
@@ -33,10 +35,14 @@ public:
     void setEggPosY(float eggPosY);
     void setEggPosZ(float eggPosZ);
 
+    GLuint getEggId() const;
+
+    float getEggRadius() const;
 
     void draw();
     void draw(float x, float y, float z);
     void move();
+    bool collideWith(std::vector<Arbre*>& a);
 
     float getEggPosX() const;
     float getEggPosY() const;

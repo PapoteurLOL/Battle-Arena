@@ -83,6 +83,24 @@ void Egg::setEggPosZ(float eggPosZ) {
     Egg::eggPosZ = eggPosZ;
 }
 
+float Egg::getEggRadius() const {
+    return eggRadius;
+}
 
+bool Egg::collideWith(std::vector<Arbre*>& a) {
+    for (Arbre* arbre : a) {
+        if ((arbre->getX() - arbre->getRadius() <= eggPosX + eggRadius
+        && arbre->getX() + arbre->getRadius() >= eggPosX - eggRadius
+        && arbre->getZ() - arbre->getRadius() <= eggPosZ + eggRadius
+        && arbre->getZ() + arbre->getRadius() >= eggPosZ - eggRadius)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+GLuint Egg::getEggId() const {
+    return eggID;
+}
 
 
