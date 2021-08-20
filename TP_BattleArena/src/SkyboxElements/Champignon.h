@@ -9,7 +9,7 @@
 #include "SDL2/SDL.h"
 class Champignon {
 private:
-    float x, y, z, angleRotate = 0, deltaTime, velocity = .5;
+    float x, y, z, angleRotate = 0, deltaTime, velocity = .01;
     GLuint idTexture;
     float radius;
     Uint32 endPosition;

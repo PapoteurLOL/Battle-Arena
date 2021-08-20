@@ -39,6 +39,7 @@ void Champignon::move(Uint32 startRotation) {
         if (x < 50 || x > 50) {
             velocity *= -1;
         }
+        endPosition = startRotation;
     }
 }
 Champignon::~Champignon() {
