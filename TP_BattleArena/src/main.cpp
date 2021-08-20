@@ -6,17 +6,20 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL2/SDL_mixer.h>
-#include "Arbre.h"
-#include "Champignon.h"
+#include "SkyboxElements/Arbre.h"
+#include "SkyboxElements/Champignon.h"
 #include "Utils.h"
 #include "Camera.h"
 #include "Projectile.h"
 #include "Enemy.h"
 #include "CollisionManager.h"
 void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag);
+drawsplitScreen(Player *p1, Player *p2, std::vector<Enemy *> enemies, int width, int height,
+                const Uint8 *state,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idSolSkybox,
+                std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag,
+                Uint32 startRotation);
 void drawUi();
 int main(int argc, char **args) {
     srand(time(NULL));
@@ -46,6 +49,7 @@ int main(int argc, char **args) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     GLuint idDesert = Utils::loadTexture("./assets/desert-skybox.png");
+    GLuint idSolSkybox = Utils::loadTexture("./assets/sol.jpg");
     glMatrixMode(GL_PROJECTION);
     //initialise la matrice de projection à 0
     glLoadIdentity();
@@ -58,7 +62,7 @@ int main(int argc, char **args) {
     float x = 10, y = 10, z = 10;
     float x2 = 15, y2 = 10, z2 = 15;
     const Uint8 *state = nullptr;
-
+    Uint32 startRotation;
     //jouer son
     Mix_PlayChannel(2, son1, -1);
     GLUquadric *params = gluNewQuadric();
@@ -102,28 +106,18 @@ int main(int argc, char **args) {
             sign = 1;
         }
         float zPositionChampignons = sign * rand() % 250;
-        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params, 5));
+        champignons.push_back(new Champignon(xPositionChampignons * 5, .01, zPositionChampignons * 5, params, 5, 200));
     }
     if (son1 == NULL) {
         SDL_Log("erreur chargement son");
     }
-    float enemyPosX = 0;
-    float enemyPosY = 20;
-    float enemyPosZ = -800;
-    float enemyVelocity = .2;
-    Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
-//    std::vector<Enemy *> enemies;
-//    for (int i = 0; i < 5; i++) {
-//        int sign = 1;
-//        if (rand()%2 == 0)
-//            sign = -1;
-//        else
-//            sign = 1;
-//        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
-//    }
-
+    std::vector<Enemy *> enemies;
+    for (int i = 0; i < 5; i++) {
+        enemies.push_back(new Enemy(params, rand() % 3000 - 1000, 4, rand() % 3000 - 1000, .2));
+    }
     CollisionManager *collisionManager = new CollisionManager(arbres, champignons);
     while (isRunning) {
+        glLoadIdentity();
         //Nettoyer la fenêtre
         glClearColor(0.0f, 0.f, 0.f,
                      1.f); //permet d'expliquer avec quelle couleur on va remplir la memoire des couleurs
@@ -132,6 +126,7 @@ int main(int argc, char **args) {
         //gestion évènement
         SDL_PollEvent(&event);
         state = SDL_GetKeyboardState(NULL);
+        startRotation = SDL_GetTicks();
         if (event.type == SDL_QUIT) {
             isRunning = false;
         }
@@ -164,26 +159,28 @@ int main(int argc, char **args) {
             z2 += .1;
         }
         //UI PLAYER 1
-        glViewport(0, height - height / 8, width, height / 8);
-        glLoadIdentity();
-        drawUi();
-        //GAMESCREEN PLAYER 1
-        glViewport(0, height / 2, width, height * 3 / 8);
+//        glViewport(0, height - height / 8, width, height / 8);
+//        glLoadIdentity();
+//        drawUi();
+//        GAMESCREEN PLAYER 1
+        glViewport(0, 0, width, height /2);
         glLoadIdentity();
         if (!p1->isDead())
             c1->move();
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
-                        champignons, tailleMonde, collisionManager);
+        drawsplitScreen(p1, p2, enemies, width, height, state, params, idBulletTexture, idDesert, idSolSkybox,
+                        arbres,
+                        champignons, tailleMonde, collisionManager, startRotation);
 //        //UI PLAYER 2
-        glViewport(0, height * 3 / 8, width, height / 8);
-        glLoadIdentity();
+//        glViewport(0, height * 3 / 8, width, height / 8);
+//        glLoadIdentity();
         //GAMESCREEN PLAYER 2
-        glViewport(0, 0, width, height * 3 / 8);
-        glLoadIdentity();
-        if (!p2->isDead())
-            c2->move();
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, arbres,
-                        champignons, tailleMonde, collisionManager);
+//        glViewport(0, height / 2, width, height / 2);
+//        glLoadIdentity();
+//        if (!p2->isDead())
+//            c2->move();
+//        drawsplitScreen(p1, p2, enemies, width, height, state, params, idBulletTexture, idDesert, idSolSkybox,
+//                        arbres,
+//                        champignons, tailleMonde, collisionManager, startRotation);
 
         //check game end
         if (!p1->isActive() || !p2->isActive())
@@ -208,11 +205,16 @@ int main(int argc, char **args) {
     return 0;
 }
 void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
-                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
-//verifier collision pour les 2 player
+drawsplitScreen(Player *p1, Player *p2, std::vector<Enemy *> enemies, int width, int height,
+                const Uint8 *state,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+                std::vector<Arbre *> arbres,
+                std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag,
+                Uint32 startPosition) {
+    //verifier collision pour les 2 player
 //p1
+
+    glViewport(0, 0, width, height);
     if (!collmanag->collisionCheck(p1)) {
         p1->move(state, params, idTextureBullet);
     } else {
@@ -225,11 +227,11 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
 //    } else {
 //        p2->forceMoveBack();
 //    }
-//    collmanag->collisionBulletCheck(p2, p1);
+    collmanag->collisionBulletCheck(p2, p1);
     //dessiner skybox
     Utils::drawSkybox(tailleMonde, tailleMonde, tailleMonde, idTextureSkybox);
     //dessiner platforme
-    Utils::drawCube(tailleMonde, .1, tailleMonde);
+    Utils::drawCube(tailleMonde, .1, tailleMonde, idTextureSol);
     //dessiner arbres
     for (auto arbre : arbres) {
         arbre->draw();
@@ -238,14 +240,20 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     for (auto champ : champignons) {
         champ->draw();
     }
+    for (auto champ : champignons) {
+        champ->move(startPosition);
+    }
     //dessiner player
     p1->draw();
     p2->draw();
     //dessiner enemy
-    enemy->draw();
-    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-    enemy->spawnEgg(params);
+    for (Enemy *e : enemies) {
+        e->draw(const_cast<std::vector<Projectile *> &>(p1->getAbility0()->getBullets()));
+        e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+        e->spawnEgg(params);
+    }
 }
 void drawUi(){
     Utils::drawQuads(100,100,1,0,0);
 }
+
