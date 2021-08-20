@@ -28,7 +28,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 50, 0);
+    glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
     glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
@@ -70,7 +70,6 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glPopMatrix();
 
     glEndList();
-
 }
 
 
@@ -78,19 +77,6 @@ void Enemy::draw(std::vector<Projectile*>& p, std::vector<Arbre*>& a) {
     glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
     glCallList(enemyID);
-    glPopMatrix();
-
-
-    if (this->isHitBy(p))
-        HP -= .5;
-    glPushMatrix();
-    glTranslatef(enemyPosX, enemyPosY + 50, enemyPosZ);
-    if (HP>0) {
-        glScalef(1,1,HP / 100);
-    } else {
-        glScalef(0,0,0);
-    }
-    glCallList(hpID);
     glPopMatrix();
 
     for (Egg *egg : eggs) {

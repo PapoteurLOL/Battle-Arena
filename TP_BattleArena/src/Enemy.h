@@ -40,7 +40,6 @@ private:
 
     Vector direction;
 
-
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw(std::vector<Projectile*>& p,std::vector<Arbre*>& a);
