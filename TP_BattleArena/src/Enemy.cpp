@@ -43,19 +43,30 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     gluCylinder(params, 1, .01, 4, 10, 10);
     glPopMatrix();
 
+
+
+    gluQuadricDrawStyle(params, GLU_FILL);
+    glPushMatrix();
+    glTranslatef(0, 110, 0);
+    //glRotatef(-90, 1, 0, 0);
+    glScalef(10,10,10);
+    glColor3ub(255, 59, 59);
+    gluCylinder(params, .75, .75, 10, 10, 10);
+    glPopMatrix();
+
     glEndList();
 
 
     hpID = glGenLists(1);
     glNewList(hpID, GL_COMPILE);
-    glColor3ub(200, 0, 5);
+    glColor3ub(51, 153, 0);
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 60, 0);
     //glRotatef(0, 1, 0, 0);
     glScalef(10, 10, 10);
-    gluCylinder(params, 1, 1, 10, 10,10);
+    gluCylinder(params, 1, 1, 11, 10,10);
     glPopMatrix();
 
     glEndList();
