@@ -14,11 +14,12 @@
 #include "Enemy.h"
 #include "CollisionManager.h"
 void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
-                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
+drawsplitScreen(Player *p1, Player *p2, std::vector<Enemy *> enemies, int width, int height, Camera *c1, Camera *c2,
+                const Uint8 *state,
+                GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idSolSkybox,
                 std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag,
-                Uint32 startPosition);
+                Uint32 startRotation);
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -113,17 +114,10 @@ int main(int argc, char **args) {
     float enemyPosY = 20;
     float enemyPosZ = -800;
     float enemyVelocity = .2;
-    Enemy *enemy = new Enemy(params, enemyPosX, enemyPosY, enemyPosZ, enemyVelocity);
-//    std::vector<Enemy *> enemies;
-//    for (int i = 0; i < 5; i++) {
-//        int sign = 1;
-//        if (rand()%2 == 0)
-//            sign = -1;
-//        else
-//            sign = 1;
-//        enemies.push_back(new Enemy(params, sign * rand() % 700, 2, sign * rand() % 700, .2));
-//    }
-
+    std::vector<Enemy *> enemies;
+    for (int i = 0; i < 5; i++) {
+        enemies.push_back(new Enemy(params, rand() % 3000 - 1000, 4, rand() % 3000 - 1000, .2));
+    }
     CollisionManager *collisionManager = new CollisionManager(arbres, champignons);
     while (isRunning) {
         glLoadIdentity();
@@ -167,9 +161,9 @@ int main(int argc, char **args) {
         if (state[SDL_SCANCODE_S]) {
             z2 += .1;
         }
-        drawsplitScreen(p1, p2, enemy, width, height, c1, c2, state, params, idBulletTexture, idDesert, idSolSkybox,
+        drawsplitScreen(p1, p2, enemies, width, height, c1, c2, state, params, idBulletTexture, idDesert, idSolSkybox,
                         arbres,
-                        champignons, tailleMonde, collisionManager,startRotation);
+                        champignons, tailleMonde, collisionManager, startRotation);
         if (!p1->isActive() || !p2->isActive())
             isRunning = false;
         //mise a jour de l'écran
@@ -192,7 +186,8 @@ int main(int argc, char **args) {
     return 0;
 }
 void
-drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
+drawsplitScreen(Player *p1, Player *p2, std::vector<Enemy *> enemies, int width, int height, Camera *c1, Camera *c2,
+                const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, GLuint idTextureSol,
                 std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag,
@@ -224,24 +219,21 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     p1->draw();
     p2->draw();
     //dessiner enemy
-    enemy->draw();
-    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-    enemy->spawnEgg(params);
+    for (Enemy *e : enemies) {
+        e->draw(const_cast<std::vector<Projectile *> &>(p1->getAbility0()->getBullets()));
+        e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+        e->spawnEgg(params);
+    }
 
-    //        for (Enemy *e : enemies) {
-    //            e->draw();
-    //        }
-    //
-    //        for (Enemy *e : enemies) {
-    //            e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
-    //        }
 
-//    glViewport(0, height / 2, width, height);
-//    glLoadIdentity();
-//    c2->move();
-//    Utils::drawCube(2000, .1, 2000);
-//    p2->draw();
-//    p1->draw();
-//    enemy->draw();
-//    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
+
+
+    //    glViewport(0, height / 2, width, height);
+    //    glLoadIdentity();s
+    //    c2->move();
+    //    Utils::drawCube(2000, .1, 2000);
+    //    p2->draw();
+    //    p1->draw();
+    //    enemy->draw();
+    //    enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
 }

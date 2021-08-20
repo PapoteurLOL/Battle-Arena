@@ -15,38 +15,41 @@
 
 #include "Utilities/Point.h"
 #include "Egg.h"
+#include "Player.h"
 
 class Enemy {
 
 private:
     GLuint enemyID;
+    GLuint hpID;
     float enemyPosX = 0;
     float enemyPosY = 20;
     float enemyPosZ = -800;
     float velocity = .2;
+    float HP = 100;
 
     float rotationAngle = 0;
 
     std::vector <Egg*> eggs;
-    Egg* anEgg;
-    bool eggReady = false;
+    float eggVelocity = 5;
 
     Uint32 currentTime = 0;
     Uint32 lastUpdate = 0;
-    int timeToEggReady = 1000; //ms
+    int timeToSpawnEgg = 500; //ms
 
     Vector direction;
 
+
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
-    void draw();
+    void draw(std::vector<Projectile*>& p);
     void trackPlayer(float x, float y, float z);
 
     void spawnEgg(GLUquadric *params);
     void setEggDirection(Vector direction);
 
-    void setEggReady(bool eggReady);
-    bool isEggReady() const;
+    bool isHitBy (std::vector<Projectile*>& p);
+
 
     float getEnemyPosX() const;
     float getEnemyPosY() const;
