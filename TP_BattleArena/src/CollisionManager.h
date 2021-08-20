@@ -5,8 +5,8 @@
 #ifndef TP_BATTLEARENA_COLLISIONMANAGER_H
 #define TP_BATTLEARENA_COLLISIONMANAGER_H
 #include "Player.h"
-#include "Arbre.h"
-#include "Champignon.h"
+#include "SkyboxElements/Arbre.h"
+#include "SkyboxElements/Champignon.h"
 class CollisionManager {
 protected:
     std::vector<Arbre *> arbres;
