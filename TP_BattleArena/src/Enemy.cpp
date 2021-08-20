@@ -20,7 +20,7 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 0, 0);
+    glTranslatef(0, 20, 0);
     glRotatef(90, 1, 0, 0);
     glScalef(10, 10, 10);
     gluSphere(params, 2, 6, 6);
@@ -28,30 +28,58 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
 
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
-    glTranslatef(0, 20, 0);
+    glTranslatef(0, 50, 0);
     glRotatef(90, 1, 0, 0);
     glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
 
-//    gluQuadricDrawStyle(params, GLU_FILL);
-//    glPushMatrix();
-//    glTranslatef(0, 20, 0);
-//    glTranslatef(enemyPosX, enemyPosY + 20, enemyPosZ);
-//    glRotatef(0, 1, 0, 0);
-//    glScalef(10,10,10);
-//    glColor3ub(50, 50, 50);
-//    gluCylinder(params, 1, .01, 5, 10, 10);
-//    glPopMatrix();
+    gluQuadricDrawStyle(params, GLU_FILL);
+    glPushMatrix();
+    glTranslatef(0, 50, 0);
+    glRotatef(-90, 1, 0, 0);
+    glScalef(10,10,10);
+    glColor3ub(50, 50, 50);
+    gluCylinder(params, 1, .01, 4, 10, 10);
+    glPopMatrix();
 
     glEndList();
+
+
+    hpID = glGenLists(1);
+    glNewList(hpID, GL_COMPILE);
+    glColor3ub(200, 0, 5);
+
+    gluQuadricDrawStyle(params, GLU_FILL);
+    glPushMatrix();
+    glTranslatef(0, 60, 0);
+    //glRotatef(0, 1, 0, 0);
+    glScalef(10, 10, 10);
+    gluCylinder(params, 1, 1, 10, 10,10);
+    glPopMatrix();
+
+    glEndList();
+
 }
 
 
-void Enemy::draw() {
+void Enemy::draw(std::vector<Projectile*>& p) {
     glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
     glCallList(enemyID);
+    glPopMatrix();
+
+
+    if (this->isHitBy(p))
+        HP -= .5;
+    glPushMatrix();
+    glTranslatef(enemyPosX, enemyPosY + 50, enemyPosZ);
+    if (HP>0) {
+        glScalef(1,1,HP / 100);
+    } else {
+        glScalef(0,0,0);
+    }
+    glCallList(hpID);
     glPopMatrix();
 
     for (Egg *egg : eggs) {
@@ -70,16 +98,18 @@ void Enemy::trackPlayer(float x, float y, float z) {
     float sinus = direction.z / direction.magnitude();
     rotationAngle = acos(cosinus) * 180 / M_PI + 90;
 
-    //glPushMatrix();
+
     //glRotatef(rotationAngle, 0, 1, 0);
 
-    enemyPosX += velocity * direction.x;
-    //enemyPosY += velocity * direction.y;
-    enemyPosZ += velocity * direction.z;
+    if (HP > 0 ) {
+        enemyPosX += velocity * direction.x;
+        //enemyPosY += velocity * direction.y;
+        enemyPosZ += velocity * direction.z;
+        setEggDirection(direction);
+    } else {
+        //delete enemy
+    }
 
-    //glPopMatrix();
-
-    setEggDirection(direction);
 }
 
 Enemy::~Enemy() {
@@ -88,9 +118,8 @@ Enemy::~Enemy() {
 
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
-    if (currentTime - lastUpdate >= timeToEggReady) {
-        Egg *egg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 5, direction.x, direction.y, direction.z);
-        //anEgg = new Egg(params, enemyPosX, enemyPosY, enemyPosZ, 15);
+    if (currentTime - lastUpdate >= rand() % timeToSpawnEgg + 4000) {
+        Egg *egg = new Egg(params, enemyPosX, enemyPosY + 10 , enemyPosZ, eggVelocity , direction.x, direction.y, direction.z);
         eggs.push_back(egg);
         lastUpdate = currentTime;
     }
@@ -113,24 +142,29 @@ void Enemy::setEggDirection(Vector direction) {
         for (Egg *e : eggs) {
             e->setDirection(direction);
             e->move();
-//            if (abs(e->getEggPosX()) > 1000 && abs(e->getEggPosZ()) > 1000) {
-//                e->setEggPosX(enemyPosX);
-//                e->setEggPosY(enemyPosY);
-//                e->setEggPosX(enemyPosZ);
-//            }
+            //            if (abs(e->getEggPosX()) > 1000 && abs(e->getEggPosZ()) > 1000) {
+            //                e->setEggPosX(enemyPosX);
+            //                e->setEggPosY(enemyPosY);
+            //                e->setEggPosX(enemyPosZ);
+            //            }
         }
     }
 
     //std::cout<< enemyPosZ << std::endl;
 }
 
-void Enemy::setEggReady(bool eggReady) {
-    Enemy::eggReady = eggReady;
+bool Enemy::isHitBy(std::vector<Projectile*>& p) {
+    for (Projectile* projectile : p) {
+        if ((projectile->getX() - projectile->getRadius() <= enemyPosX + 10
+        && projectile->getX() + projectile->getRadius() >= enemyPosX - 10
+        && projectile->getZ() - projectile->getRadius() <= enemyPosZ + 10
+        && projectile->getZ() + projectile->getRadius() >= enemyPosZ - 10)) {
+            return true;
+        }
+    }
+    return false;
 }
 
-bool Enemy::isEggReady() const {
-    return eggReady;
-}
 
 
 
