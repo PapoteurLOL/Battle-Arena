@@ -4,20 +4,16 @@
 
 #include <iostream>
 #include "Enemy.h"
-
-
 Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : direction(x, y, z) {
     //x:0,y:20, z:-800
-
+    dead = false;
     this->enemyPosX = x;
     this->enemyPosY = y;
     this->enemyPosZ = z;
     this->velocity = velocity;
-
     enemyID = glGenLists(1);
     glNewList(enemyID, GL_COMPILE);
     glColor3ub(255, 5, 5);
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 20, 0);
@@ -25,7 +21,6 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glScalef(10, 10, 10);
     gluSphere(params, 2, 6, 6);
     glPopMatrix();
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 50, 0);
@@ -33,7 +28,6 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glScalef(10, 10, 10);
     gluSphere(params, 1, 6, 6);
     glPopMatrix();
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 50, 0);
@@ -42,8 +36,6 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glColor3ub(50, 50, 50);
     gluCylinder(params, 1, .01, 4, 10, 10);
     glPopMatrix();
-
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 110, 0);
@@ -52,15 +44,10 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glColor3ub(255, 59, 59);
     gluCylinder(params, .75, .75, 10, 10, 10);
     glPopMatrix();
-
     glEndList();
-
-
     hpID = glGenLists(1);
     glNewList(hpID, GL_COMPILE);
-
     glColor3ub(51, 153, 0);
-
     gluQuadricDrawStyle(params, GLU_FILL);
     glPushMatrix();
     glTranslatef(0, 60, 0);
@@ -68,19 +55,13 @@ Enemy::Enemy(GLUquadric *params, float x, float y, float z, float velocity) : di
     glScalef(10, 10, 10);
     gluCylinder(params, 1, 1, 11, 10, 10);
     glPopMatrix();
-
     glEndList();
-
 }
-
-
 void Enemy::draw(std::vector<Projectile *> &p, std::vector<Arbre *> &a) {
     glPushMatrix();
     glTranslatef(enemyPosX, enemyPosY, enemyPosZ);
     glCallList(enemyID);
     glPopMatrix();
-
-
     if (this->isHitBy(p))
         HP -= .5;
     glPushMatrix();
@@ -92,7 +73,6 @@ void Enemy::draw(std::vector<Projectile *> &p, std::vector<Arbre *> &a) {
     }
     glCallList(hpID);
     glPopMatrix();
-
     for (Egg *egg : eggs) {
         if (egg) {
             egg->draw();
@@ -102,13 +82,10 @@ void Enemy::draw(std::vector<Projectile *> &p, std::vector<Arbre *> &a) {
         }
     }
 }
-
 void Enemy::trackPlayer(float x, float y, float z) {
-
     Vector *playerCoordinates = new Vector(x, y, z);
     direction = playerCoordinates->operator-(Vector(enemyPosX, enemyPosY, enemyPosZ));
     direction.normalize();
-
     float cosinus = direction.x / direction.magnitude();
     float sinus = direction.z / direction.magnitude();
     rotationAngle = acos(cosinus) * 180 / M_PI + 90;
@@ -122,15 +99,13 @@ void Enemy::trackPlayer(float x, float y, float z) {
         enemyPosZ += velocity * direction.z;
         setEggDirection(direction);
     } else {
-        glDeleteLists(enemyID, 1);
+//        glDeleteLists(enemyID, 1);
+        dead = true;
     }
-
 }
-
 Enemy::~Enemy() {
     glDeleteLists(enemyID, 1);
 }
-
 void Enemy::spawnEgg(GLUquadric *params) {
     currentTime = SDL_GetTicks();
     if (currentTime - lastUpdate >= rand() % timeToSpawnEgg + 4000) {
@@ -140,19 +115,15 @@ void Enemy::spawnEgg(GLUquadric *params) {
         lastUpdate = currentTime;
     }
 }
-
 float Enemy::getEnemyPosX() const {
     return enemyPosX;
 }
-
 float Enemy::getEnemyPosY() const {
     return enemyPosY;
 }
-
 float Enemy::getEnemyPosZ() const {
     return enemyPosZ;
 }
-
 void Enemy::setEggDirection(Vector direction) {
     if (!eggs.empty()) {
         for (Egg *e : eggs) {
@@ -168,7 +139,6 @@ void Enemy::setEggDirection(Vector direction) {
 
     //std::cout<< enemyPosZ << std::endl;
 }
-
 bool Enemy::isHitBy(std::vector<Projectile *> &p) {
     for (Projectile *projectile : p) {
         if ((projectile->getX() - projectile->getRadius() <= enemyPosX + 10
@@ -179,4 +149,7 @@ bool Enemy::isHitBy(std::vector<Projectile *> &p) {
         }
     }
     return false;
+}
+bool Enemy::isDead() const {
+    return dead;
 }

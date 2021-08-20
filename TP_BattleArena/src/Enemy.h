@@ -39,7 +39,9 @@ private:
     int timeToSpawnEgg = 500; //ms
 
     Vector direction;
-
+    bool dead;
+public:
+    bool isDead() const;
 public:
     Enemy(GLUquadric *params, float x, float y, float z, float velocity);
     void draw(std::vector<Projectile*>& p,std::vector<Arbre*>& a);

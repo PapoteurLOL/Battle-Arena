@@ -209,6 +209,10 @@ void GameFlow::drawsplitScreen() {
         e->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
         e->spawnEgg(params);
     }
+    for (int i = 0; i < enemies.size(); i++){
+        if(enemies[i]->isDead())
+            enemies.erase(enemies.begin() + i);
+    }
 }
 void GameFlow::drawUi() {
     Utils::drawQuads(100, 100, 1, 0, 0);
