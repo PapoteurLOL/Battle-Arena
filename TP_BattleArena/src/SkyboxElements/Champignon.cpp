@@ -3,7 +3,10 @@
 //
 
 #include "Champignon.h"
-Champignon::Champignon(float x, float y, float z, GLUquadric *params, float radius) : x(x), y(y), z(z), radius(radius) {
+Champignon::Champignon(float x, float y, float z, GLUquadric *params, float radius, float deltaTime) : x(x), y(y), z(z),
+                                                                                                       radius(radius),
+                                                                                                       deltaTime(
+                                                                                                               deltaTime) {
     idTexture = glGenLists(2);
     glNewList(idTexture, GL_COMPILE);
     //glPushMatrix();
@@ -25,11 +28,19 @@ Champignon::Champignon(float x, float y, float z, GLUquadric *params, float radi
 void Champignon::draw() {
     glPushMatrix();
     glTranslatef(x, y, z);
+    glRotatef(angleRotate, 0, angleRotate, 1);
     glCallList(idTexture);
     glPopMatrix();
 }
-void Champignon::move() {
-    angleRotate += .1;
+void Champignon::move(Uint32 startRotation) {
+    x += velocity;
+    if (startRotation - endPosition > deltaTime) {
+        angleRotate += .1;
+        if (x < 50 || x > 50) {
+            velocity *= -1;
+        }
+        endPosition = startRotation;
+    }
 }
 Champignon::~Champignon() {
     glDeleteLists(idTexture, 2);
