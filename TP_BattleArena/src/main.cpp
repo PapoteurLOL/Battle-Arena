@@ -17,6 +17,7 @@ void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag);
+void drawUi();
 int main(int argc, char **args) {
     srand(time(NULL));
     SDL_Window *win;
@@ -165,6 +166,7 @@ int main(int argc, char **args) {
         //UI PLAYER 1
         glViewport(0, height - height / 8, width, height / 8);
         glLoadIdentity();
+        drawUi();
         //GAMESCREEN PLAYER 1
         glViewport(0, height / 2, width, height * 3 / 8);
         glLoadIdentity();
@@ -209,14 +211,15 @@ void
 drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Camera *c1, Camera *c2, const Uint8 *state,
                 GLUquadric *params, GLuint idTextureBullet, GLuint idTextureSkybox, std::vector<Arbre *> arbres,
                 std::vector<Champignon *> champignons, int tailleMonde, CollisionManager *collmanag) {
-
+//verifier collision pour les 2 player
+//p1
     if (!collmanag->collisionCheck(p1)) {
         p1->move(state, params, idTextureBullet);
     } else {
         p1->forceMoveBack();
     }
     collmanag->collisionBulletCheck(p1, p2);
-
+//p2
 //    if (!collmanag->collisionCheck(p2)) {
 //        p2->move(state, params, idTextureBullet);
 //    } else {
@@ -242,4 +245,7 @@ drawsplitScreen(Player *p1, Player *p2, Enemy *enemy, int width, int height, Cam
     enemy->draw();
     enemy->trackPlayer(p1->getX(), p1->getY(), p1->getZ());
     enemy->spawnEgg(params);
+}
+void drawUi(){
+    Utils::drawQuads(100,100,1,0,0);
 }
